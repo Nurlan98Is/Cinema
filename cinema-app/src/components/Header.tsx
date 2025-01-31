@@ -4,7 +4,7 @@ export const Header = () => {
   return (
     <nav className={style.nav}>
       <div className={style.nav_logo_links}>
-        <NavLink to="/HomePage">
+        <NavLink to="/">
           <div>Logo Cinematik</div>
         </NavLink>
         <NavLink to="/films">

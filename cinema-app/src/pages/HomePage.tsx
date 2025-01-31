@@ -1,5 +1,6 @@
 //import { FC } from "react"
 import style from "./Homepage.module.css";
+import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   return (
@@ -8,12 +9,16 @@ export const HomePage = () => {
         <div className={style.subscribe_month}>
           <p className={style.font_sub}>Купить подписку:</p>
           <p className={style.font_sub}>690р в месяц</p>
-          <button className={style.btn_sub}>Купить</button>
+          <Link to="/subscribe" className={style.btn_sub}>
+            Купить
+          </Link>
         </div>
         <div className={style.subscribe_year}>
           <p className={style.font_sub}>Купить годовую подписку:</p>
           <p className={style.font_sub}>415 рублей в месяц</p>
-          <button className={style.btn_sub}>Купить</button>
+          <Link to="/subscribe" className={style.btn_sub}>
+            Купить
+          </Link>
         </div>
       </div>
       <p style={{ paddingLeft: "27%", fontSize: "64px" }}>
