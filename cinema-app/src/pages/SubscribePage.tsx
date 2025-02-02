@@ -78,7 +78,7 @@ const SelecBasePlanSubscribeComponent = () => {
             </p>
           </div>
           <div className={style.first_btn_container}>
-            <button>ВЫБРАТЬ</button>
+            <button className={style.btn_select_white}>ВЫБРАТЬ</button>
           </div>
         </div>
         <div className={style.second_card_container}>
@@ -101,7 +101,7 @@ const SelecBasePlanSubscribeComponent = () => {
             </p>
           </div>
           <div className={style.second_btn_container}>
-            <button>ВЫБРАТЬ</button>
+            <button className={style.btn_select_black}>ВЫБРАТЬ</button>
           </div>
         </div>
         <div className={style.third_card_container}>
@@ -123,7 +123,7 @@ const SelecBasePlanSubscribeComponent = () => {
             </p>
           </div>
           <div className={style.third_btn_container}>
-            <button>ВЫБРАТЬ</button>
+            <button className={style.btn_select_white}>ВЫБРАТЬ</button>
           </div>
         </div>
       </section>
