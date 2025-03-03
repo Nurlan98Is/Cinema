@@ -17,7 +17,7 @@ export const Series = () => {
     )
       .then((res) => res.json())
       .then((data) => setSeries(data.results));
-  });
+  }, []);
 
   return (
     <div>

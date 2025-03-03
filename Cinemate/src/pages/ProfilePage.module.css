@@ -1,0 +1,14 @@
+.profile_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile_avatar {
+  background-image: url("https://sun9-50.userapi.com/impg/1On8yvJgfb_kFkG-ZVe-GrBU3FQ9SI1SXucRsg/DC-gGZcETvM.jpg?size=1439x2160&quality=95&sign=a8b60faae207344a4eef0ae8e46eba3b&type=album");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+}

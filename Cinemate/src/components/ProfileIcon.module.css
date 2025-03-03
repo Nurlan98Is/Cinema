@@ -1,9 +1,12 @@
 .profile_icon_container {
+  background-image: url("A:\cinema\Cinemate\src\assets\ad.JPEG");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  background-color: black;
 }
 .opened_container {
   display: flex;
@@ -24,10 +27,13 @@
 }
 
 .profile_avatar {
+  background-image: url("A:\cinema\Cinemate\src\assets\ad.JPEG");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin-bottom: 30px;
   width: 70px;
   height: 70px;
-  background-color: aqua;
   border-radius: 50%;
 }
 
