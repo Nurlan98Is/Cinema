@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   return (
-    <div>
-      <div className={style.subscribe_div}>
+    <div className={style.homepage_container}>
+      <div className={style.subscribe_container}>
         <div className={style.subscribe_month}>
           <p className={style.font_sub}>Купить подписку:</p>
           <p className={style.font_sub}>690р в месяц</p>
@@ -21,7 +21,7 @@ export const HomePage = () => {
           </Link>
         </div>
       </div>
-      <p style={{ paddingLeft: "27%", fontSize: "64px" }}>
+      <p style={{ paddingLeft: "2%", fontSize: "64px" }}>
         Смотри сериалы от FX{" "}
       </p>
       <div className={style.Fx_container}>

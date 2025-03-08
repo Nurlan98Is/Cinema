@@ -10,7 +10,7 @@ export const ProfileIcon = (props: string) => {
   const avatarRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(props);
+  //console.log(props);
   const hanldeSingOut = () => {
     dispatch(singIn(false));
     navigate("/");
@@ -47,6 +47,7 @@ export const ProfileIcon = (props: string) => {
         width: "50px",
         height: "50px",
         borderRadius: "50%",
+        marginRight: "20px",
       }}
       /*className={styles.profile_icon_container}*/
       onClick={toggleMenu}

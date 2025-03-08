@@ -1,3 +1,4 @@
+import { spread } from "axios";
 import { useState, useEffect } from "react";
 
 interface Series {

@@ -1,7 +1,13 @@
-.subscribe_div {
+.homepage_container {
   display: flex;
-  justify-content: space-around;
-  gap: 50px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subscribe_container {
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
 }
 
 .subscribe_month {
