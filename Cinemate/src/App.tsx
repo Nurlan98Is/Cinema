@@ -8,6 +8,7 @@ import { SingIn } from "./pages/SinginPage";
 import { SubscribePage } from "./pages/SubscribePage";
 import { RegistrationPage } from "./pages/RegistrationPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       </Route>
       <Route path="/registration" element={<RegistrationPage />} />
       <Route path="/singin" element={<SingIn />} />
+      <Route path="/notfound" element={<NotFoundPage />} />
     </Routes>
   );
 }

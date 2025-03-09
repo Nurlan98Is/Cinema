@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import styles from "./ProfilePage.module.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { FavoriteMoviesSlider } from "../components/FavoriteMoviesSlider";
 
 interface UserProfileType {
   NickName: string;
@@ -19,7 +20,7 @@ export const ProfilePage = () => {
   const userAuth = auth.currentUser;
   const [userProfile, useUserProfile] = useState<UserProfileType>({});
   const [isActive, setIsActive] = useState(0);
-
+  console.log(isActive);
   const getUserFromFirestore = async (userId: string) => {
     try {
       const userRef = doc(db, "users", userId);
@@ -34,7 +35,12 @@ export const ProfilePage = () => {
       console.error("Ошибка при получении данных пользователя:", error);
     }
   };
-  getUserFromFirestore(userAuth?.uid);
+  useEffect(() => {
+    if (userAuth?.uid) {
+      getUserFromFirestore(userAuth.uid);
+    }
+  }, [userAuth?.uid]);
+  // getUserFromFirestore(userAuth?.uid);
 
   // const tabs = [
   //   { id: "favorites", label: "Любимые фильмы" },
@@ -87,6 +93,7 @@ export const ProfilePage = () => {
         <button onClick={() => setIsActive(3)}>Хочу посомтреть</button>
         <button onClick={() => setIsActive(4)}>Отзывы</button>
       </div>
+      {isActive === 1 && <FavoriteMoviesSlider />}
     </div>
   ) : (
     navigate("/")

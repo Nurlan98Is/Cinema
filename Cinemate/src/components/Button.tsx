@@ -6,7 +6,7 @@ interface BtnType {
 
 export const Button = ({ title, style, onClick }) => {
   return (
-    <button style={style} onClick={onClick}>
+    <button style={style} onClick={() => {onClick}}>
       {title}
     </button>
   );
