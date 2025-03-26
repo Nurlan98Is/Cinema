@@ -5,6 +5,7 @@ import styles from "./ProfilePage.module.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FavoriteMoviesSlider } from "../components/FavoriteMoviesSlider";
+import { Swiper } from "swiper";
 
 interface UserProfileType {
   NickName: string;
@@ -16,11 +17,16 @@ interface UserProfileType {
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
+
   const user = useSelector((state: RootState) => state.auth.auth);
+
   const userAuth = auth.currentUser;
+
   const [userProfile, useUserProfile] = useState<UserProfileType>({});
+
   const [isActive, setIsActive] = useState(0);
   console.log(isActive);
+
   const getUserFromFirestore = async (userId: string) => {
     try {
       const userRef = doc(db, "users", userId);

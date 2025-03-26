@@ -9,6 +9,8 @@ import { useState } from "react";
 
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import { NotificationBage } from "./NotificationBage";
+import { NotFoundPage } from "../pages/NotFoundPage";
 
 export const Header = () => {
   const user = useSelector((state: RootState) => state.auth.auth);
@@ -36,7 +38,7 @@ export const Header = () => {
     }
   };
   getUserFromFirestore(userAuth?.uid);
-
+  //sdsdsd
   return (
     <nav className={style.nav}>
       <div className={style.nav_logo_links}>
