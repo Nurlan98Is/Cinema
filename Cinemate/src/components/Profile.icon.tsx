@@ -48,6 +48,7 @@ export const ProfileIcon = (props: string) => {
         height: "50px",
         borderRadius: "50%",
         marginRight: "20px",
+          cursor: "pointer",
       }}
       /*className={styles.profile_icon_container}*/
       onClick={toggleMenu}
