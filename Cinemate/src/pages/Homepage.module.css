@@ -154,3 +154,97 @@
 .font_sub {
   font-size: 32px;
 }
+
+@media (max-width: 770px) {
+  .subscribe_container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-left: 10px;
+  }
+  .Fx_container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+
+  .American_crime_story_container {
+    width: 375px;
+    height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("A:/cinema/Cinemate/src/assets/American_crime_story.jpg");
+    backface-visibility: 60%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .Snowfall_container {
+    width: 375px;
+    height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("A:\cinema\Cinemate\src\assets\Snowfall.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .What_we_do_in_the_shadow_container {
+    width: 375px;
+    height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("A:\cinema\Cinemate\src\assets\What_we_do_in_the_shadow.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .Sons_of_anarchy_container {
+    width: 375px;
+    height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("A:\cinema\Cinemate\src\assets\Sons_of_anarchy.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .American_crime_story_container:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url("A:/cinema/Cinemate/src/assets/American_crime_story.jpg");
+    transform: none;
+  }
+  .Snowfall_container:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url("A:\cinema\Cinemate\src\assets\Snowfall.jpg");
+    transform: none;
+  }
+
+  .What_we_do_in_the_shadow_container:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url("A:\cinema\Cinemate\src\assets\What_we_do_in_the_shadow.jpg");
+    transform: none;
+  }
+
+  .Sons_of_anarchy_container:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url("A:\cinema\Cinemate\src\assets\Sons_of_anarchy.jpg");
+    transform: none;
+  }
+}
