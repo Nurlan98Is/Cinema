@@ -1,143 +1,353 @@
-import { Header } from "../components/Header";
-import style from "./Subscribe.module.css";
 import { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Paper,
+  Grid,
+  Divider,
+  Chip,
+  ToggleButton,
+  ToggleButtonGroup,
+  styled
+} from "@mui/material";
+import {
+  CheckCircle as CheckIcon,
+  Star as StarIcon,
+  LiveTv as LiveTvIcon,
+  SportsEsports as SportsIcon,
+  FamilyRestroom as FamilyIcon
+} from "@mui/icons-material";
 
-interface Active {
-  activeComponent: boolean;
-  activeBtn: boolean;
-}
+const PlanCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  borderRadius: theme.shape.borderRadius * 2,
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  transition: 'transform 0.3s',
+  '&:hover': {
+    transform: 'scale(1.02)',
+    boxShadow: theme.shadows[8]
+  }
+}));
+
+const PopularBadge = styled(Chip)(({ theme }) => ({
+  position: 'absolute',
+  top: theme.spacing(2),
+  right: theme.spacing(2),
+  backgroundColor: theme.palette.secondary.main,
+  color: theme.palette.common.white,
+  fontWeight: 'bold'
+}));
 
 export const SubscribePage = () => {
-  const [isActive, setActive] = useState<Active>({
-    activeComponent: true,
-    activeBtn: true,
-  });
+  const [subscriptionType, setSubscriptionType] = useState<'basic' | 'bundle'>('basic');
 
-  const setActiveTrue = (): void =>
-    setActive({ activeComponent: true, activeBtn: true });
-  const setActiveFasle = (): void =>
-    setActive({ activeComponent: false, activeBtn: false });
+  const handleChange = (
+      event: React.MouseEvent<HTMLElement>,
+      newType: 'basic' | 'bundle'
+  ) => {
+    if (newType !== null) {
+      setSubscriptionType(newType);
+    }
+  };
 
   return (
-    <div>
-      <div className={style.subscribe_conteiner}>
-        <p className={style.text_first}>Выберете вариант подписки</p>
-        <p className={style.text_second}>
-          Сменить план подписки или ее отменить можно в любое время
-        </p>
-        <div className={style.btn_selector_plans}>
-          <button
-            onClick={setActiveTrue}
-            className={`${style.sub_btn} ${
-              isActive.activeBtn ? style.sub_btn_active : style.sub_btn_noactive
-            }`}
+      <Container maxWidth="lg" sx={{ py: 6 }}>
+        <Box textAlign="center" mb={6}>
+          <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Выберите вариант подписки
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Сменить план подписки или отменить её можно в любое время
+          </Typography>
+        </Box>
+
+        <Box display="flex" justifyContent="center" mb={6}>
+          <ToggleButtonGroup
+              value={subscriptionType}
+              exclusive
+              onChange={handleChange}
+              aria-label="subscription type"
+              sx={{
+                '& .MuiToggleButton-root': {
+                  px: 4,
+                  py: 1.5,
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  '&.Mui-selected': {
+                    backgroundColor: 'primary.main',
+                    color: 'common.white',
+                    '&:hover': {
+                      backgroundColor: 'primary.dark'
+                    }
+                  }
+                }
+              }}
           >
-            Базовая подписка
-          </button>
-          <button
-            onClick={setActiveFasle}
-            className={`${style.sub_btn} ${
-              !isActive.activeBtn
-                ? style.sub_btn_active
-                : style.sub_btn_noactive
-            }`}
+            <ToggleButton value="basic" aria-label="basic subscription">
+              Базовая подписка
+            </ToggleButton>
+            <ToggleButton value="bundle" aria-label="bundle subscription">
+              Пакет/Выгода
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
+
+        {subscriptionType === 'basic' ? (
+            <BasicPlans />
+        ) : (
+            <BundlePlans />
+        )}
+      </Container>
+  );
+};
+
+const BasicPlans = () => (
+    <Grid container spacing={4}>
+      {/* Без рекламы */}
+      <Grid item xs={12} md={4}>
+        <PlanCard elevation={3}>
+          <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Cinemate без рекламы
+          </Typography>
+          <Box sx={{ my: 2 }}>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              690₽ <Typography component="span" color="text.secondary">/месяц</Typography>
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ mb: 3 }}>
+            {[
+              "Эксклюзивные сериалы без рекламы",
+              "Популярные фильмы",
+              "Оригинальные фильмы",
+              "Детские шоу",
+              "Доступ на 4 устройствах"
+            ].map((item) => (
+                <Box key={item} display="flex" alignItems="center" mb={1}>
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography>{item}</Typography>
+                </Box>
+            ))}
+          </Box>
+          <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              sx={{ mt: 'auto', py: 1.5 }}
           >
-            Пакет/Выгода
-          </button>
-        </div>
-        <div>
-          {isActive.activeComponent ? (
-            <SelecBasePlanSubscribeComponent />
-          ) : (
-            <SelecBudlePlanSubscribeComponent />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+            Выбрать
+          </Button>
+        </PlanCard>
+      </Grid>
 
-const SelecBasePlanSubscribeComponent = () => {
-  return (
-    <div className={style.plan_card_container}>
-      <section className={style.section_plan_container}>
-        <div className={style.first_card_container}>
-          <h3>Название приложения (без рекламы)</h3>
-          <div className={style.first_plan}>
-            <div className={style.first_price_container}>
-              <span>Р690</span>
-              <span> / месяц</span>
-            </div>
-          </div>
-          <div className={style.description}>
-            <p>
-              Наш план Cinemate (без рекламы) позволяет вам смотреть
-              эксклюзивные сериалы, популярные фильмы, оригинальные фильмы,
-              детские шоу и многое другое без перерывов на рекламу.
-            </p>
-          </div>
-          <div className={style.first_btn_container}>
-            <button className={style.btn_select_white}>ВЫБРАТЬ</button>
-          </div>
-        </div>
-        <div className={style.second_card_container}>
-          <div className={style.second_title_container}>
-            <span>Популярное</span>
-          </div>
-          <h3>Название приложения</h3>
-          <div className={style.second_plan}>
-            <span>Первый месяц бесплатно, затем</span>
-            <div className={style.second_price_container}>
-              <span>Р690</span>
-              <span> / месяц</span>
-            </div>
-          </div>
-          <div className={style.description}>
-            <p>
-              Наш план Cinemate (с рекламой) позволяет вам смотреть эксклюзивные
-              сериалы, популярные фильмы, оригинальные фильмы, детские шоу и
-              многое другое.
-            </p>
-          </div>
-          <div className={style.second_btn_container}>
-            <button className={style.btn_select_black}>ВЫБРАТЬ</button>
-          </div>
-        </div>
-        <div className={style.third_card_container}>
-          <h3>Название приложения + Live TV</h3>
-          <div className={style.third_plan}>
-            <span>Первые три дня бесплатно, затем</span>
-            <div className={style.third_price_container}>
-              <span>Р690</span>
-              <span> / месяц</span>
-            </div>
-          </div>
-          <div className={style.description}>
-            <p>
-              Получите доступ к более чем 95 каналам с Live TV, безлимитным
-              видеорегистратором, бесконечным развлечениям с Disney+ (с
-              рекламой), прямыми спортивными трансляциями с ESPN+ (с рекламой) и
-              отмеченными наградами оригинальными фильмами Hulu с Cinemate (с
-              рекламой).
-            </p>
-          </div>
-          <div className={style.third_btn_container}>
-            <button className={style.btn_select_white}>ВЫБРАТЬ</button>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+      {/* С рекламой (популярный) */}
+      <Grid item xs={12} md={4}>
+        <PlanCard elevation={3} sx={{ position: 'relative' }}>
+          <PopularBadge label="Популярное" icon={<StarIcon />} />
+          <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Cinemate с рекламой
+          </Typography>
+          <Box sx={{ my: 2 }}>
+            <Typography color="text.secondary">Первый месяц бесплатно, затем</Typography>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              690₽ <Typography component="span" color="text.secondary">/месяц</Typography>
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ mb: 3 }}>
+            {[
+              "Эксклюзивные сериалы (с рекламой)",
+              "Популярные фильмы",
+              "Оригинальные фильмы",
+              "Детские шоу",
+              "Доступ на 2 устройствах"
+            ].map((item) => (
+                <Box key={item} display="flex" alignItems="center" mb={1}>
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography>{item}</Typography>
+                </Box>
+            ))}
+          </Box>
+          <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              sx={{ mt: 'auto', py: 1.5 }}
+          >
+            Выбрать
+          </Button>
+        </PlanCard>
+      </Grid>
 
-const SelecBudlePlanSubscribeComponent = () => {
-  return (
-    <div>
-      <section>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-      </section>
-    </div>
-  );
-};
+      {/* + Live TV */}
+      <Grid item xs={12} md={4}>
+        <PlanCard elevation={3}>
+          <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Cinemate + Live TV
+          </Typography>
+          <Box sx={{ my: 2 }}>
+            <Typography color="text.secondary">Первые 3 дня бесплатно, затем</Typography>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              690₽ <Typography component="span" color="text.secondary">/месяц</Typography>
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ mb: 3 }}>
+            {[
+              "95+ каналов с Live TV",
+              "Безлимитный видеорегистратор",
+              "Доступ к Disney+ (с рекламой)",
+              "Спортивные трансляции ESPN+",
+              "Доступ на 6 устройствах"
+            ].map((item) => (
+                <Box key={item} display="flex" alignItems="center" mb={1}>
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography>{item}</Typography>
+                </Box>
+            ))}
+          </Box>
+          <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              sx={{ mt: 'auto', py: 1.5 }}
+          >
+            Выбрать
+          </Button>
+        </PlanCard>
+      </Grid>
+    </Grid>
+);
+
+const BundlePlans = () => (
+    <Grid container spacing={4}>
+      {/* Базовый пакет */}
+      <Grid item xs={12} md={4}>
+        <PlanCard elevation={3}>
+          <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Базовый пакет
+          </Typography>
+          <Box sx={{ my: 2 }}>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              990₽ <Typography component="span" color="text.secondary">/месяц</Typography>
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1 }}>
+              Экономия 15%
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ mb: 3 }}>
+            {[
+              "Cinemate без рекламы",
+              "Доступ к 50+ каналам",
+              "5 профилей",
+              "Доступ на 4 устройствах",
+              "Качество 4K"
+            ].map((item) => (
+                <Box key={item} display="flex" alignItems="center" mb={1}>
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography>{item}</Typography>
+                </Box>
+            ))}
+          </Box>
+          <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              sx={{ mt: 'auto', py: 1.5 }}
+          >
+            Выбрать
+          </Button>
+        </PlanCard>
+      </Grid>
+
+      {/* Премиум пакет */}
+      <Grid item xs={12} md={4}>
+        <PlanCard elevation={3} sx={{ position: 'relative' }}>
+          <PopularBadge label="Выгодно" icon={<StarIcon />} />
+          <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Премиум пакет
+          </Typography>
+          <Box sx={{ my: 2 }}>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              1,490₽ <Typography component="span" color="text.secondary">/месяц</Typography>
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1 }}>
+              Экономия 25%
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ mb: 3 }}>
+            {[
+              "Cinemate без рекламы + Live TV",
+              "Доступ к 100+ каналам",
+              "10 профилей",
+              "Доступ на 6 устройствах",
+              "Качество 4K HDR",
+              "Детский профиль",
+              "Оффлайн просмотр"
+            ].map((item) => (
+                <Box key={item} display="flex" alignItems="center" mb={1}>
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography>{item}</Typography>
+                </Box>
+            ))}
+          </Box>
+          <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              sx={{ mt: 'auto', py: 1.5 }}
+          >
+            Выбрать
+          </Button>
+        </PlanCard>
+      </Grid>
+
+      {/* Семейный пакет */}
+      <Grid item xs={12} md={4}>
+        <PlanCard elevation={3}>
+          <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Семейный пакет
+          </Typography>
+          <Box sx={{ my: 2 }}>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              1,990₽ <Typography component="span" color="text.secondary">/месяц</Typography>
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1 }}>
+              Экономия 30%
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ mb: 3 }}>
+            {[
+              "Всё из Премиум пакета",
+              "Доступ к 150+ каналам",
+              "15 профилей",
+              "Доступ на 10 устройствах",
+              "Детские и спортивные каналы",
+              "Оффлайн просмотр на 5 устройствах",
+              "Персональные рекомендации"
+            ].map((item) => (
+                <Box key={item} display="flex" alignItems="center" mb={1}>
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography>{item}</Typography>
+                </Box>
+            ))}
+          </Box>
+          <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              sx={{ mt: 'auto', py: 1.5 }}
+          >
+            Выбрать
+          </Button>
+        </PlanCard>
+      </Grid>
+    </Grid>
+);

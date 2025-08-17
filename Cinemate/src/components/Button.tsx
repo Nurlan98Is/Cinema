@@ -4,7 +4,7 @@ interface BtnType {
   onClick?: () => {};
 }
 
-export const Button = ({ title, style, onClick }) => {
+export const Button = ({ title, style, onClick }: BtnType) => {
   return (
     <button style={style} onClick={() => {onClick}}>
       {title}

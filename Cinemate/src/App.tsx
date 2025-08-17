@@ -18,11 +18,11 @@ function App() {
         <Route path="/films" element={<Films />} />
         <Route path="/serials" element={<Series />} />
         <Route path="/subscribe" element={<SubscribePage />} />
-        <Route path="/user" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
-      <Route path="/registration" element={<RegistrationPage />} />
-      <Route path="/singin" element={<SingIn />} />
-      <Route path="/notfound" element={<NotFoundPage />} />
+      <Route path="/register" element={<RegistrationPage />} />
+      <Route path="/signin" element={<SingIn />} />
+      <Route path="/not-found" element={<NotFoundPage />} />
     </Routes>
   );
 }

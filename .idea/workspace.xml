@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a7a552a-beba-422a-93c3-839ba7788f53" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Cinemate/src/components/Header.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/Cinemate/src/components/Header.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cinemate/src/components/Profile.icon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Cinemate/src/components/Profile.icon.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cinemate/src/components/ProfileIcon.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/Cinemate/src/components/ProfileIcon.module.css" afterDir="false" />
+    <list default="true" id="549150e2-1bb1-4b48-b21b-ce31e73474b1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,10 +15,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Nurlan98Is&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nurlan98Is/Cinema.git&quot;,
+    &quot;accountId&quot;: &quot;dfeb8d37-4fdd-4e47-86bd-d9e0d6d2b613&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2vDbqHmEHigqJjPJLPglgSo9SrT" />
+  <component name="ProjectId" id="2yMtdjbri12s0gm6SVD79VfCcLr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -29,18 +39,36 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "create",
-    "last_opened_file_path": "A:/testTask",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/iskakov98/Documents/pojectsGithub/Cinema",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.TypeScript",
-    "ts.external.directory.path": "A:\\cinema\\Cinemate\\node_modules\\typescript\\lib",
+    "npm.build.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/iskakov98/Documents/pojectsGithub/Cinema/Cinemate/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/Cinemate/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -51,18 +79,13 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7a7a552a-beba-422a-93c3-839ba7788f53" name="Changes" comment="" />
-      <created>1743682782164</created>
+      <changelist id="549150e2-1bb1-4b48-b21b-ce31e73474b1" name="Changes" comment="" />
+      <created>1749656359199</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1743682782164</updated>
-      <workItem from="1743682783533" duration="949000" />
-      <workItem from="1743686041877" duration="14000" />
-      <workItem from="1743703517190" duration="11000" />
-      <workItem from="1743732052735" duration="27000" />
-      <workItem from="1743862466967" duration="61000" />
-      <workItem from="1743879097560" duration="16000" />
-      <workItem from="1743949896364" duration="1635000" />
+      <updated>1749656359199</updated>
+      <workItem from="1749656360259" duration="334000" />
+      <workItem from="1750077414379" duration="409000" />
     </task>
     <servers />
   </component>
