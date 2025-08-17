@@ -11,7 +11,10 @@ import {
   Paper,
   styled
 } from "@mui/material";
-
+import americanCrimeStore from '../assets/american_crime_story.jpg';
+import snowFall from '../assets/snowfall.jpg';
+import whatWeDoInTheShadow from '../assets/what_we_do_in_the_shadow.jpg';
+import sonsOfAnarchy from '../assets/sons_of_anarchy.jpg';
 const SubscriptionCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   borderRadius: theme.shape.borderRadius as number * 2,
@@ -37,22 +40,22 @@ const shows = [
   {
     title: "Американская история преступлений",
     genres: "Драма, Криминал, Биография, История",
-    image: "src/assets/american_crime_story.jpg"
+    image: `${americanCrimeStore}`
   },
   {
     title: "Снегопад",
     genres: "Драма, Криминал",
-    image: "src/assets/snowfall.jpg"
+    image: `${snowFall}`
   },
   {
     title: "Чем мы заняты в тени",
     genres: "Комедия, Ужасы",
-    image: "src/assets/what_we_do_in_the_shadow.jpg"
+    image: `${whatWeDoInTheShadow}`
   },
   {
     title: "Сыны Анархии",
     genres: "Триллер, Драма, Криминал",
-    image: "src/assets/sons_of_anarchy.jpg"
+    image: `${sonsOfAnarchy}`
   }
 ];
 
