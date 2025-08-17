@@ -33,7 +33,7 @@ export const Footer = () => {
             <Container maxWidth="lg">
                 <Grid container spacing={4}>
                     {/* О нас */}
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid >
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             О Нас
                         </Typography>
@@ -57,7 +57,7 @@ export const Footer = () => {
                     </Grid>
 
                     {/* Контакты */}
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid>
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             Контакты
                         </Typography>
@@ -82,7 +82,7 @@ export const Footer = () => {
                     </Grid>
 
                     {/* Сервис */}
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid >
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             Сервис
                         </Typography>
@@ -118,7 +118,7 @@ export const Footer = () => {
                     </Grid>
 
                     {/* Правовая информация */}
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid >
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             Правовая информация
                         </Typography>

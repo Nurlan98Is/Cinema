@@ -15,14 +15,14 @@ import {
 import {
   CheckCircle as CheckIcon,
   Star as StarIcon,
-  LiveTv as LiveTvIcon,
-  SportsEsports as SportsIcon,
-  FamilyRestroom as FamilyIcon
+  // LiveTv as LiveTvIcon,
+  // SportsEsports as SportsIcon,
+  // FamilyRestroom as FamilyIcon
 } from "@mui/icons-material";
 
 const PlanCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: theme.shape.borderRadius as number * 2,
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -46,7 +46,7 @@ export const SubscribePage = () => {
   const [subscriptionType, setSubscriptionType] = useState<'basic' | 'bundle'>('basic');
 
   const handleChange = (
-      event: React.MouseEvent<HTMLElement>,
+      _event: React.SyntheticEvent,
       newType: 'basic' | 'bundle'
   ) => {
     if (newType !== null) {
@@ -108,7 +108,7 @@ export const SubscribePage = () => {
 const BasicPlans = () => (
     <Grid container spacing={4}>
       {/* Без рекламы */}
-      <Grid item xs={12} md={4}>
+      <Grid >
         <PlanCard elevation={3}>
           <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
             Cinemate без рекламы
@@ -145,7 +145,7 @@ const BasicPlans = () => (
       </Grid>
 
       {/* С рекламой (популярный) */}
-      <Grid item xs={12} md={4}>
+      <Grid >
         <PlanCard elevation={3} sx={{ position: 'relative' }}>
           <PopularBadge label="Популярное" icon={<StarIcon />} />
           <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -184,7 +184,7 @@ const BasicPlans = () => (
       </Grid>
 
       {/* + Live TV */}
-      <Grid item xs={12} md={4}>
+      <Grid>
         <PlanCard elevation={3}>
           <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
             Cinemate + Live TV
@@ -226,7 +226,7 @@ const BasicPlans = () => (
 const BundlePlans = () => (
     <Grid container spacing={4}>
       {/* Базовый пакет */}
-      <Grid item xs={12} md={4}>
+      <Grid >
         <PlanCard elevation={3}>
           <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
             Базовый пакет
@@ -266,7 +266,7 @@ const BundlePlans = () => (
       </Grid>
 
       {/* Премиум пакет */}
-      <Grid item xs={12} md={4}>
+      <Grid >
         <PlanCard elevation={3} sx={{ position: 'relative' }}>
           <PopularBadge label="Выгодно" icon={<StarIcon />} />
           <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -309,7 +309,7 @@ const BundlePlans = () => (
       </Grid>
 
       {/* Семейный пакет */}
-      <Grid item xs={12} md={4}>
+      <Grid >
         <PlanCard elevation={3}>
           <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
             Семейный пакет

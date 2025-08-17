@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-  Box,
   Button,
   Container,
   Grid,
@@ -15,7 +14,7 @@ import {
 
 const SubscriptionCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: theme.shape.borderRadius as number * 2,
   textAlign: 'center',
   transition: 'transform 0.3s, box-shadow 0.3s',
   '&:hover': {
@@ -24,7 +23,7 @@ const SubscriptionCard = styled(Paper)(({ theme }) => ({
   }
 }));
 
-const ShowCard = styled(Card)(({ theme }) => ({
+const ShowCard = styled(Card)(() => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -62,7 +61,7 @@ export const HomePage = () => {
       <Container maxWidth="xl" sx={{ py: 4 }}>
         {/* Subscription Section */}
         <Grid container spacing={4} sx={{ mb: 6 }}>
-          <Grid item xs={12} md={6}>
+          <Grid  >
             <SubscriptionCard variant="outlined" sx={{ bgcolor: 'primary.light' }}>
               <Typography variant="h5" gutterBottom>
                 Купить подписку
@@ -81,7 +80,7 @@ export const HomePage = () => {
               </Button>
             </SubscriptionCard>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid >
             <SubscriptionCard variant="outlined" sx={{ bgcolor: 'secondary.light' }}>
               <Typography variant="h5" gutterBottom>
                 Годовая подписка
@@ -120,8 +119,8 @@ export const HomePage = () => {
         </Typography>
 
         <Grid container spacing={4}>
-          {shows.map((show, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+          {shows.map((show) => (
+              <Grid >
                 <ShowCard>
                   <CardMedia
                       component="img"

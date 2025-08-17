@@ -8,7 +8,7 @@ interface Movie {
   release_date?: string;
 }
 
-export const Films = ({ isActive }) => {
+export const Films = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {

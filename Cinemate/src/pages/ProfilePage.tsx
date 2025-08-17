@@ -4,10 +4,10 @@ import { doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FavoriteMoviesSlider } from "../components/FavoriteMoviesSlider";
+import {RootState} from "../store/store.ts";
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Container,
@@ -83,7 +83,7 @@ export const ProfilePage = () => {
     }
   }, [user, userAuth?.uid, navigate]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
@@ -94,7 +94,7 @@ export const ProfilePage = () => {
         <Card sx={{ mb: 4 }}>
           <CardContent>
             <Grid container spacing={4} alignItems="center">
-              <Grid item xs={12} md={4} display="flex" justifyContent="center">
+              <Grid  display="flex" justifyContent="center">
                 {userProfile.ProfilePhotoUrl ? (
                     <ProfileAvatar
                         alt={userProfile.NickName}
@@ -107,13 +107,13 @@ export const ProfilePage = () => {
                     </ProfileAvatar>
                 )}
               </Grid>
-              <Grid item xs={12} md={8}>
+              <Grid >
                 <Typography variant="h4" component="h1" gutterBottom>
                   {userProfile.NickName || "Пользователь"}
                 </Typography>
                 <Divider sx={{ my: 2 }} />
                 <Grid container spacing={2}>
-                  <Grid item xs={6} sm={4}>
+                  <Grid >
                     <Typography variant="subtitle1" color="text.secondary">
                       Имя
                     </Typography>
@@ -121,7 +121,7 @@ export const ProfilePage = () => {
                       {userProfile.FirstName || "Не указано"}
                     </Typography>
                   </Grid>
-                  <Grid item xs={6} sm={4}>
+                  <Grid >
                     <Typography variant="subtitle1" color="text.secondary">
                       Фамилия
                     </Typography>
@@ -129,7 +129,7 @@ export const ProfilePage = () => {
                       {userProfile.LastName || "Не указано"}
                     </Typography>
                   </Grid>
-                  <Grid item xs={6} sm={4}>
+                  <Grid >
                     <Typography variant="subtitle1" color="text.secondary">
                       Возраст
                     </Typography>
@@ -137,7 +137,7 @@ export const ProfilePage = () => {
                       {userProfile.Age || "Не указан"}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid >
                     <Typography variant="subtitle1" color="text.secondary">
                       Email
                     </Typography>
