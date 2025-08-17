@@ -4,7 +4,7 @@ import { singIn } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export const ProfileIcon = (props: string) => {
+export const ProfileIcon = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const avatarRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +40,7 @@ export const ProfileIcon = (props: string) => {
   return (
     <div
       style={{
-        backgroundImage: `url(${props.profile.ProfilePhotoUrl})`,
+        backgroundImage: `url()`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -57,7 +57,7 @@ export const ProfileIcon = (props: string) => {
         <div className={styles.opened_container} ref={menuRef}>
           <div
             style={{
-              backgroundImage: `url(${props.profile.ProfilePhotoUrl})`,
+              backgroundImage: `url()`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",

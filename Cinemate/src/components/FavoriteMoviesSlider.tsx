@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { favoriteMovieArray } from "./FavoriteMovie";
-import { SwiperSlide, Swiper } from "swiper/react";
+import { Box, Typography } from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import { favoriteMovieArray } from './FavoriteMovie.ts'
 
-export type favoriteMovie = {
+export type FavoriteMovie = {
   title: string;
   img: string;
   rating: number;
@@ -10,109 +12,66 @@ export type favoriteMovie = {
 };
 
 export const FavoriteMoviesSlider = () => {
-  const [favoriteMovie, setFavoriteMovie] =
-    useState<favoriteMovie[]>(favoriteMovieArray);
-  const [indexPosition, setIndexPosition] = useState(0);
+  const [favoriteMovies] = useState<FavoriteMovie[]>(favoriteMovieArray);
 
-  const next = 450;
-  const nextPos = () => {
-    setIndexPosition((next) => next + 450);
-  };
   return (
-    // <div // main-container
-    //   style={{
-    //     // position: "relative",
-    //     // width: "500px",
-    //     // margin: "0 auto",
-    //     // display: "flex",
-    //     // alignItems: "center",
-    //     // justifyContent: "center",
-    //     // gap: "10px",
-    //     //overflow: "hidden",
-    //     height: "600px",
-    //     width: "600px",
-    //   }}
-    // >
-    //   <button>Предыдущий</button>
-    //   <div //window
-    //     style={{
-    //       height: "100%",
-    //       width: "100%",
-    //       //overflow: "hidden",
-    //     }}
-    //   >
-    //     <div // all-items
-    //       style={{
-    //         height: "100%",
-    //         display: "flex",
-    //       }}
-    //     >
-    //       {/* {favoriteMovie.map((movie, i) => {
-    //         return (
-    //           <div
-    //             key={movie.id}
-    //             style={{
-    //               height: "100%",
-    //               maxWidth: "600px",
-    //               minWidth: "600px",
-    //               backgroundImage: `url("${movie.img}")`,
-    //               backgroundSize: "contain",
-    //               backgroundPosition: "center",
-    //               backgroundRepeat: "no-repeat",
-    //               transform: `translateX()`,
-    //             }}
-    //           >
-    //             <p style={{ paddingLeft: "150px", color: "white" }}>
-    //               {movie.title}
-    //             </p>
-    //             <p style={{ paddingLeft: "150px", color: "white" }}>
-    //               {movie.rating}
-    //             </p>
-    //             <p style={{ paddingLeft: "150px", color: "white" }}>
-    //               {movie.id}
-    //               ss{i}
-    //             </p>
-    //           </div>
-    //         );
-    //       })} */}
-
-    //     </div>
-    //   </div>
-    //   <button onClick={nextPos}>Следующий</button>
-    // </div>
-    <div>
-      {" "}
-      <Swiper>
-        {" "}
-        {favoriteMovie.map((movie, i) => {
-          return (
-            <div
-              key={movie.id}
-              style={{
-                height: "100%",
-                maxWidth: "600px",
-                minWidth: "600px",
-                backgroundImage: `url("${movie.img}")`,
-                backgroundSize: "contain",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                transform: `translateX()`,
-              }}
-            >
-              <p style={{ paddingLeft: "150px", color: "white" }}>
-                {movie.title}
-              </p>
-              <p style={{ paddingLeft: "150px", color: "white" }}>
-                {movie.rating}
-              </p>
-              <p style={{ paddingLeft: "150px", color: "white" }}>
-                {movie.id}
-                ss{i}
-              </p>
-            </div>
-          );
-        })}
-      </Swiper>
-    </div>
+      <Box
+          sx={{
+            width: "100%",
+            maxWidth: 800,
+            margin: "0 auto",
+            position: "relative",
+          }}
+      >
+        <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={20}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            loop
+            style={{
+              padding: "20px 0",
+            }}
+        >
+          {favoriteMovies.map((movie) => (
+              <SwiperSlide key={movie.id}>
+                <Box
+                    sx={{
+                      height: 400,
+                      backgroundImage: `url("${movie.img}")`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      borderRadius: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "flex-end",
+                      p: 3,
+                      color: "white",
+                      position: "relative",
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background:
+                            "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)",
+                        borderRadius: 2,
+                      },
+                    }}
+                >
+                  <Box position="relative" zIndex={1}>
+                    <Typography variant="h5" fontWeight="bold">
+                      {movie.title}
+                    </Typography>
+                    <Typography variant="body1">Rating: {movie.rating}/10</Typography>
+                  </Box>
+                </Box>
+              </SwiperSlide>
+          ))}
+        </Swiper>
+      </Box>
   );
 };
