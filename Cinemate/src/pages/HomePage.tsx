@@ -11,6 +11,14 @@ import {
   Paper,
   styled
 } from "@mui/material";
+
+import  fxPopularSeries  from '../FxSeriesArray';
+import classicSitcoms from "../ClassicSitcomes";
+import hboSeries from "../HBOseriesArray";
+import netflixSeries from "../NetflixSeriesArray";
+
+import SeriesSwiper from "../components/FilmsSliderShow";
+
 import americanCrimeStore from '../assets/american_crime_story.jpg';
 import snowFall from '../assets/snowfall.jpg';
 import whatWeDoInTheShadow from '../assets/what_we_do_in_the_shadow.jpg';
@@ -70,7 +78,10 @@ export const HomePage = () => {
                 Купить подписку
               </Typography>
               <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
-                690₽ в месяц
+                749₽ в месяц
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 2 }}>
+                (8,990₽ за год)
               </Typography>
               <Button
                   component={Link}
@@ -89,10 +100,10 @@ export const HomePage = () => {
                 Годовая подписка
               </Typography>
               <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
-                415₽ в месяц
+                499₽ в месяц
               </Typography>
               <Typography variant="body2" sx={{ mb: 2 }}>
-                (4,980₽ за год)
+                (5,990₽ за год)
               </Typography>
               <Button
                   component={Link}
@@ -121,37 +132,235 @@ export const HomePage = () => {
           Смотри сериалы от FX
         </Typography>
 
-        <Grid container spacing={4}>
-          {shows.map((show) => (
-              <Grid >
-                <ShowCard>
-                  <CardMedia
-                      component="img"
-                      height="240"
-                      image={show.image}
-                      alt={show.title}
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h3">
-                      {show.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {show.genres}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                        size="small"
-                        color="primary"
-                        sx={{ textTransform: 'none' }}
-                    >
-                      Подробнее
-                    </Button>
-                  </CardActions>
-                </ShowCard>
-              </Grid>
-          ))}
+        <SeriesSwiper>
+      {fxPopularSeries.map((show) => (
+        <Grid container spacing={4} item key={show.id}>
+          <ShowCard 
+          sx={{ 
+            width: 300, 
+            minHeight: 700,
+            display: 'flex',
+            flexDirection: 'column'
+            }}>
+            <CardMedia
+              component="img"
+              sx={{ 
+                width: '100%',
+                height: 'auto',
+                maxHeight: 480,
+                objectFit: 'contain'
+              }}
+              image={show?.image}
+              alt={show.title.russian}
+            />
+            <CardContent sx={{ flexGrow: 1 }}>
+              <Typography gutterBottom variant="h5" component="h3">
+                {show.title.russian}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                {show.title.original}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                {show.genre.join(", ")}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {show.years.start} - {show.years.end || "н.в."} • {show.seasons} сезонов
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Рейтинг IMDb: {show.imdbRating}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary" sx={{ textTransform: "none" }}>
+                Подробнее
+              </Button>
+            </CardActions>
+          </ShowCard>
         </Grid>
+      ))}
+    </SeriesSwiper>
+
+    <Typography
+    variant="h3"
+    component='h2'
+    sx={{
+      mb: 4,
+      fontWeight: 'bold',
+      color: 'text.primary'
+    }}
+    >
+      Культовые ситкомы
+    </Typography>
+
+    <SeriesSwiper slidesPerView={4} spaceBetween={20}>
+    {classicSitcoms.map((show) => (
+  <Grid container item key={show.id}>
+    <ShowCard 
+    sx={{ 
+      width: 300, 
+      minHeight: 700,
+      display: 'flex',
+      flexDirection: 'column'
+      }}
+    >
+      <CardMedia
+        component="img"
+        sx={{ 
+          width: '100%',
+          height: 'auto',
+          maxHeight: 450,
+          objectFit: 'contain'
+        }}
+        image={show?.image}
+        alt={show.title.russian}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h6" component="h3">
+          {show.title.russian}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          {show.title.original}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          {show.genre.join(", ")}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {show.years.start} - {show.years.end || "н.в."} • {show.seasons} сезонов
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          IMDb: {show.imdbRating}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" color="primary" sx={{ textTransform: "none" }}>
+          Подробнее
+        </Button>
+      </CardActions>
+    </ShowCard>
+  </Grid>
+))}
+</SeriesSwiper>
+
+<Typography
+    variant="h3"
+    component='h2'
+    sx={{
+      mb: 4,
+      fontWeight: 'bold',
+      color: 'text.primary'
+    }}
+    >
+      Серилы HBO
+    </Typography>
+
+    <SeriesSwiper slidesPerView={4} spaceBetween={20}>
+  {hboSeries.map((show) => (
+    <Grid container item key={show.id}>
+      <ShowCard 
+      sx={{ 
+        width: 300, 
+        minHeight: 700,
+        display: 'flex',
+        flexDirection: 'column'
+        }}
+      >
+        <CardMedia
+          component="img"
+          sx={{ 
+            width: '100%',
+            height: 'auto',
+            maxHeight: 480,
+            objectFit: 'contain'
+          }}
+          image={show?.image}
+          alt={show.title.russian}
+        />
+        <CardContent sx={{ flexGrow: 1, overflow: 'auto' }}>
+          <Typography gutterBottom variant="h6" component="h3">
+            {show.title.russian}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {show.title.original}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {show.genre.join(", ")}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {show.years.start} - {show.years.end || "н.в."} • {show.seasons} сезонов
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            Рейтинг IMDb: {show.imdbRating}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" sx={{ textTransform: "none" }}>
+            Подробнее
+          </Button>
+        </CardActions>
+      </ShowCard>
+    </Grid>
+  ))}
+</SeriesSwiper>
+
+<Typography
+    variant="h3"
+    component='h2'
+    sx={{
+      mb: 4,
+      fontWeight: 'bold',
+      color: 'text.primary'
+    }}
+    >
+      Серилы Netflix
+    </Typography>
+    <SeriesSwiper slidesPerView={4} spaceBetween={20}>
+  {netflixSeries.map((show) => (
+    <Grid container item key={show.id}>
+      <ShowCard 
+      sx={{ 
+        width: 300, 
+        minHeight: 700,
+        display: 'flex',
+        flexDirection: 'column'
+        }}>
+        <CardMedia
+          component="img"
+          sx={{ 
+            width: '100%',
+            height: 'auto',
+            maxHeight: 480,
+            objectFit: 'contain'
+          }}
+          image={show?.image}
+          alt={show.title.russian}
+        />
+        <CardContent sx={{ flexGrow: 1, overflow: 'auto' }}>
+          <Typography gutterBottom variant="h6" component="h3">
+            {show.title.russian}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {show.title.original}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {show.genre.join(", ")}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {show.years.start} - {show.years.end || "н.в."} • {show.seasons} сезонов
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            Рейтинг IMDb: {show.imdbRating}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" sx={{ textTransform: "none" }}>
+            Подробнее
+          </Button>
+        </CardActions>
+      </ShowCard>
+    </Grid>
+  ))}
+</SeriesSwiper>
+
       </Container>
   );
 };
