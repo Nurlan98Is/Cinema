@@ -23,6 +23,7 @@ import americanCrimeStore from '../assets/american_crime_story.jpg';
 import snowFall from '../assets/snowfall.jpg';
 import whatWeDoInTheShadow from '../assets/what_we_do_in_the_shadow.jpg';
 import sonsOfAnarchy from '../assets/sons_of_anarchy.jpg';
+import { useEffect, useState } from "react";
 const SubscriptionCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   borderRadius: theme.shape.borderRadius as number * 2,
@@ -68,6 +69,18 @@ const shows = [
 ];
 
 export const HomePage = () => {
+  // const [isdata, setisdata] = useState('')
+  // useEffect(() => {
+  //   fetch('https://node-js-khaki-one.vercel.app/api/user')
+  //     .then((res) => res.json()) // Вызываем функцию json()
+  //     .then((data) => {
+  //       console.log('data from node js', data)
+  //       setisdata(JSON.stringify(data)) // Сохраняем данные в состояние
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error)
+  //     })
+  // }, [])
   return (
       <Container maxWidth="xl" sx={{ py: 4 }}>
         {/* Subscription Section */}

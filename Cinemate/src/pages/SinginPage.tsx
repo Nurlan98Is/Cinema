@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import { singIn } from "../features/auth/authSlice";
+import { signIn } from "../features/auth/authSlice";
 import {
   Box,
   Button,
@@ -37,7 +37,7 @@ export const SingIn = () => {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(singIn(userCredential.user));
+      dispatch(signIn(userCredential.user));
       navigate("/");
     } catch (error) {
       console.error(error);
