@@ -13,6 +13,8 @@ export interface SeriesData {
   years: {
     start: string;
   };
+  genre: string[];
+  imdbRating: number;
 }
 
 export interface Seasons {
@@ -28,7 +30,7 @@ export interface Episodes {
       original: string;
       russian: string;
     };
-    durationMinute: number;
+    durationMinutes: number;
     description: string;
   };
   index?: number;

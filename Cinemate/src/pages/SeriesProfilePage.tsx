@@ -2,7 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Box, Typography, Button, Stack, LinearProgress } from '@mui/material';
 import SeasonsSeriesComponent from '../components/SeasonsSeriesComponent';
+import SeasonSeriesComponent from '../components/SeasonsSeriesComponent';
+import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
+import SeriesInfoContainer from '../components/SeriesInfoContainer';
 export function SeriesProfilePage() {
   const { id } = useParams();
   const [seriesData, setSeriesData] = useState<SeriesData | null>(null);
@@ -25,12 +28,8 @@ export function SeriesProfilePage() {
     fetchDataSeries();
   }, [id]);
 
-  if (loading) {
-    return (
-      <Box sx={{ width: '100%', mt: 4 }}>
-        <LinearProgress />
-      </Box>
-    );
+  if (loading || !seriesData) {
+    return <SkeletonSeriesProfile />;
   }
 
   return (
@@ -135,6 +134,11 @@ export function SeriesProfilePage() {
           paddingX={'30px'}
           backgroundColor={'#1A1A1A'}
           borderRadius={'8px'}
+          display={'flex'}
+          flexDirection={'column'}
+          marginTop={'20px'}
+          paddingY={'20px'}
+          gap={'20px'}
         >
           <Typography color="#FFFFFF">Сезоны и эпизоды</Typography>
           {seriesData?.seasons.map((season) => (
@@ -146,16 +150,7 @@ export function SeriesProfilePage() {
             />
           ))}
         </Box>
-        <Box
-          width={'416px'}
-          height={'400px'}
-          border={'1px solid'}
-        >
-          <Typography>Год выпуска</Typography>
-          <Typography>{seriesData?.years?.start}</Typography>
-          <Typography>Доступные языки</Typography>
-          <Typography>Русский</Typography>
-        </Box>
+        <SeriesInfoContainer seriesData={seriesData} />
       </Stack>
     </Box>
   );

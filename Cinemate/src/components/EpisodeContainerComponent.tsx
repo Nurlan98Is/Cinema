@@ -2,7 +2,10 @@ import { Box, Typography, Button, Stack, useMediaQuery } from '@mui/material';
 import ClockDuration from '../../public/ClockDuration.png';
 import { Episodes } from '../types/seriesDataType';
 
-export default function EpisodeContainerComponent({ episode, index }) {
+export default function EpisodeContainerComponent({
+  episode,
+  index,
+}: Episodes) {
   console.log('episode', index);
   const isMobile = useMediaQuery('(max-width:600px)');
   const isTablet = useMediaQuery('(min-width:601px) and (max-width:1024px)');

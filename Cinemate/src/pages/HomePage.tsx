@@ -8,8 +8,7 @@ import {
   styled,
 } from '@mui/material';
 
-import classicSitcoms from '../ClassicSitcomes';
-
+import ShowCardSkeleton from '../Skeletons/ShowCardSkeleto';
 import SeriesSwiper from '../components/FilmsSliderShow';
 import { useFetchShows } from '../entities/api/useFetchShow';
 import ShowCardComponent from '../components/ShowCardComponent';
@@ -118,7 +117,14 @@ export const HomePage = () => {
       {/* FX Section */}
       <ShowsCardContainer text="Смотри сериалы от FX">
         {fxLoading ? (
-          <Typography>Загрузка...</Typography>
+          <SeriesSwiper
+            slidesPerView={4}
+            spaceBetween={20}
+          >
+            {[...Array(4)].map((_, i) => (
+              <ShowCardSkeleton key={i} />
+            ))}
+          </SeriesSwiper>
         ) : (
           <SeriesSwiper>
             {fxShows.map((show) => (
@@ -153,7 +159,14 @@ export const HomePage = () => {
       {/* HBO Section */}
       <ShowsCardContainer text="Сериалы HBO">
         {hboLoading ? (
-          <Typography>Загрузка...</Typography>
+          <SeriesSwiper
+            slidesPerView={4}
+            spaceBetween={20}
+          >
+            {[...Array(4)].map((_, i) => (
+              <ShowCardSkeleton key={i} />
+            ))}
+          </SeriesSwiper>
         ) : (
           <SeriesSwiper
             slidesPerView={4}
@@ -172,7 +185,14 @@ export const HomePage = () => {
       {/* Netflix Section */}
       <ShowsCardContainer text="Сериалы Netflix">
         {netflixLoading ? (
-          <Typography>Загрузка...</Typography>
+          <SeriesSwiper
+            slidesPerView={4}
+            spaceBetween={20}
+          >
+            {[...Array(4)].map((_, i) => (
+              <ShowCardSkeleton key={i} />
+            ))}
+          </SeriesSwiper>
         ) : (
           <SeriesSwiper
             slidesPerView={4}

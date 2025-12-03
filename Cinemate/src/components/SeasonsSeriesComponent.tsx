@@ -14,7 +14,6 @@ export default function SeasonSeriesComponent({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Медиа-запросы
   const isMobile = useMediaQuery('(max-width:600px)');
   const isTablet = useMediaQuery('(min-width:601px) and (max-width:1024px)');
 
@@ -23,8 +22,9 @@ export default function SeasonSeriesComponent({
       width="100%"
       border="1px solid"
       borderRadius="10px"
-      height={isOpen ? '80px' : 'auto'}
       backgroundColor="#0F0F0F"
+      height={isOpen ? 'auto' : '80px'} // ✅ исправлено
+      overflow="hidden" // чтобы содержимое не вылезало, когда закрыто
     >
       {/* Заголовок сезона */}
       <Stack
@@ -52,6 +52,7 @@ export default function SeasonSeriesComponent({
             {EpisodeSeriesCount} Серий
           </Typography>
         </Stack>
+
         <Button
           sx={{
             width: isMobile ? 40 : 50,
@@ -60,6 +61,8 @@ export default function SeasonSeriesComponent({
             borderRadius: '50%',
             padding: 0,
             border: '1px solid gray',
+            transition: 'transform 0.3s',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', // ✅ визуальный эффект
           }}
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -71,10 +74,11 @@ export default function SeasonSeriesComponent({
         </Button>
       </Stack>
 
-      {/* Список эпизодов */}
-      {!isOpen &&
+      {/* Эпизоды */}
+      {isOpen &&
         episodeList?.map((episode) => (
           <EpisodeContainerComponent
+            key={episode._id || episode.episodeNumber}
             episode={episode}
             index={episode.episodeNumber}
           />
