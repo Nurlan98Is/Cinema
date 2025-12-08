@@ -38,7 +38,11 @@ function App() {
           element={<SubscribePage />}
         />
         <Route
-          path="/profile:id"
+          path="/profile/:id"
+          element={<ProfilePage />}
+        />
+        <Route
+          path="profile/me"
           element={<ProfilePage />}
         />
       </Route>

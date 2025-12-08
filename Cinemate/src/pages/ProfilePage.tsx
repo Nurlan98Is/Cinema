@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { auth, db } from '../firebaseConfig';
-import { doc, getDoc } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FavoriteMoviesSlider } from '../components/FavoriteMoviesSlider';
@@ -8,6 +8,7 @@ import { RootState } from '../store/store.ts';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardContent,
   Container,
@@ -19,7 +20,9 @@ import {
   styled,
 } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-
+import { RedoTwoTone } from '@mui/icons-material';
+import { signOut } from '../features/auth/authSlice.ts';
+import { useDispatch } from 'react-redux';
 interface UserProfileType {
   NickName: string;
   FirstName: string;
@@ -50,7 +53,7 @@ export const ProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.auth);
   const userAuth = auth.currentUser;
-
+  const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState<UserProfileType>({
     NickName: '',
     FirstName: '',
@@ -59,32 +62,27 @@ export const ProfilePage = () => {
     Email: '',
   });
   const [activeTab, setActiveTab] = useState(0);
-
-  const getUserFromFirestore = async (userId: string) => {
-    try {
-      const userRef = doc(db, 'users', userId);
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        setUserProfile(userSnap.data() as UserProfileType);
-      } else {
-        console.log('Пользователь не найден!');
-      }
-    } catch (error) {
-      console.error('Ошибка при получении данных пользователя:', error);
-    }
-  };
-
+  const { id } = useParams();
+  console.log(id);
   useEffect(() => {
-    fetch('https://be-cinemate.onrender.com/users/6925c13fa9829ae009f1e9e2');
+    fetch(`https://be-cinemate.onrender.com/users/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then((data) => data.json())
+      .then((res) =>
+        setUserProfile({
+          NickName: res.nickName,
+          FirstName: res.firstName,
+          LastName: res.lastName,
+          Age: res.birhDate,
+          Email: res.email,
+        }),
+      );
   }, []);
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-    } else if (userAuth?.uid) {
-      getUserFromFirestore(userAuth.uid);
-    }
-  }, [user, userAuth?.uid, navigate]);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -225,6 +223,9 @@ export const ProfilePage = () => {
             Раздел с вашими отзывами
           </Typography>
         )}
+      </Box>
+      <Box>
+        <Button onClick={() => dispatch(signOut())}>выйти</Button>
       </Box>
     </Container>
   );

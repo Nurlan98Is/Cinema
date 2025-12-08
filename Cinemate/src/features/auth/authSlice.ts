@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthState } from "./types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AuthState } from './types';
 
 const loadFromLocalStorage = (): boolean => {
   try {
-    const auth = localStorage.getItem("auth");
+    const auth = localStorage.getItem('auth');
     return auth ? JSON.parse(auth) : false;
   } catch {
     return false;
@@ -15,16 +15,16 @@ const initialState: AuthState = {
 };
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     signIn: (state, action: PayloadAction<boolean>) => {
       state.auth = action.payload;
-      localStorage.setItem("auth", JSON.stringify(action.payload)); 
+      localStorage.setItem('auth', JSON.stringify(action.payload));
     },
     signOut: (state) => {
       state.auth = false;
-      localStorage.removeItem("auth");
+      localStorage.removeItem('auth');
     },
   },
 });
