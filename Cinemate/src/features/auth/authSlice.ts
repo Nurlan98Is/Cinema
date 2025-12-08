@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState } from './types';
+import { auth } from '../../firebaseConfig';
 
 const loadFromLocalStorage = (): boolean => {
   try {
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     signIn: (state, action: PayloadAction<boolean>) => {
+      console.log('Setting auth state to:', action);
       state.auth = action.payload;
       localStorage.setItem('auth', JSON.stringify(action.payload));
     },

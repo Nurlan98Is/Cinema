@@ -51,19 +51,12 @@ const ProfileTab = styled(Tab)({
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.auth);
-  const userAuth = auth.currentUser;
+  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const [userProfile, setUserProfile] = useState<UserProfileType>({
-    NickName: '',
-    FirstName: '',
-    LastName: '',
-    Age: 0,
-    Email: '',
-  });
+  console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
   const { id } = useParams();
-  console.log(id);
+  console.log('id:', id);
   useEffect(() => {
     fetch(`https://be-cinemate.onrender.com/users/me`, {
       method: 'GET',
@@ -71,24 +64,18 @@ export const ProfilePage = () => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-    })
-      .then((data) => data.json())
-      .then((res) =>
-        setUserProfile({
-          NickName: res.nickName,
-          FirstName: res.firstName,
-          LastName: res.lastName,
-          Age: res.birhDate,
-          Email: res.email,
-        }),
-      );
+    });
   }, []);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
-
-  if (!user) return null;
+  const logOut = async () => {
+    const response = await fetch('');
+  };
+  if (!user) {
+    navigate('/');
+  }
 
   return (
     <Container
@@ -106,15 +93,15 @@ export const ProfilePage = () => {
               display="flex"
               justifyContent="center"
             >
-              {userProfile.ProfilePhotoUrl ? (
+              {user?.ProfilePhotoUrl ? (
                 <ProfileAvatar
-                  alt={userProfile.NickName}
-                  src={userProfile.ProfilePhotoUrl}
+                  alt={user.nickName}
+                  src={user?.ProfilePhotoUrl}
                 />
               ) : (
                 <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                  {userProfile.FirstName?.[0]}
-                  {userProfile.LastName?.[0]}
+                  {user.firstName}
+                  {user.lastName}
                 </ProfileAvatar>
               )}
             </Grid>
@@ -124,7 +111,7 @@ export const ProfilePage = () => {
                 component="h1"
                 gutterBottom
               >
-                {userProfile.NickName || 'Пользователь'}
+                {user.nickName || 'Пользователь'}
               </Typography>
               <Divider sx={{ my: 2 }} />
               <Grid
@@ -139,7 +126,7 @@ export const ProfilePage = () => {
                     Имя
                   </Typography>
                   <Typography variant="h6">
-                    {userProfile.FirstName || 'Не указано'}
+                    {user.firstName || 'Не указано'}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -150,7 +137,7 @@ export const ProfilePage = () => {
                     Фамилия
                   </Typography>
                   <Typography variant="h6">
-                    {userProfile.LastName || 'Не указано'}
+                    {user.lastName || 'Не указано'}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -161,7 +148,7 @@ export const ProfilePage = () => {
                     Возраст
                   </Typography>
                   <Typography variant="h6">
-                    {userProfile.Age || 'Не указан'}
+                    {user?.age || 'Не указан'}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -171,7 +158,7 @@ export const ProfilePage = () => {
                   >
                     Email
                   </Typography>
-                  <Typography variant="h6">{userAuth?.email}</Typography>
+                  <Typography variant="h6">{user.email}</Typography>
                 </Grid>
               </Grid>
             </Grid>

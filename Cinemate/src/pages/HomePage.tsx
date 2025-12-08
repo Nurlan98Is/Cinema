@@ -13,6 +13,7 @@ import SeriesSwiper from '../components/FilmsSliderShow';
 import { useFetchShows } from '../entities/api/useFetchShow';
 import ShowCardComponent from '../components/ShowCardComponent';
 import ShowsCardContainer from '../components/ShowsCardContainer';
+import { useSelector } from 'react-redux';
 const SubscriptionCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   borderRadius: (theme.shape.borderRadius as number) * 2,
@@ -29,7 +30,6 @@ export const HomePage = () => {
   const { shows: hboShows, loading: hboLoading } = useFetchShows('HBO');
   const { shows: netflixShows, loading: netflixLoading } =
     useFetchShows('Netflix');
-
   // const { shows: cultSitcomes, loading: cultSitcomsLoading } =
   //   useFetchShows('Ситком');
   return (

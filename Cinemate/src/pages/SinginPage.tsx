@@ -21,6 +21,7 @@ import {
   ArrowForward as ArrowForwardIcon,
 } from '@mui/icons-material';
 import { Footer } from '../components/Footer';
+import { setUser } from '../features/user/userSlice';
 
 export const SingIn = () => {
   const [email, setEmail] = useState<string>('');
@@ -47,6 +48,10 @@ export const SingIn = () => {
           body: JSON.stringify({ email: email, password: password }),
         },
       );
+      const data = await response.json();
+      dispatch(setUser(data));
+      dispatch(signIn(true));
+      console.log(data);
       navigate('/');
     } catch (error) {
       console.error(error);
