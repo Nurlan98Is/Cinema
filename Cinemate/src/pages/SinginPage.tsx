@@ -169,7 +169,7 @@ export const SingIn = () => {
             Новый на нашей платформе?{' '}
             <MuiLink
               component={Link}
-              to="/registration"
+              to="/registr"
               color="primary"
             >
               Регистрация
