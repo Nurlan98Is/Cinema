@@ -10,6 +10,7 @@ import { RegistrationPage } from './pages/RegistrationPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { SeriesProfilePage } from './pages/SeriesProfilePage';
+import { MyProfilePage } from './pages/MyProfilePage';
 function App() {
   return (
     <Routes>
@@ -43,7 +44,7 @@ function App() {
         />
         <Route
           path="profile/me"
-          element={<ProfilePage />}
+          element={<MyProfilePage />}
         />
       </Route>
       <Route

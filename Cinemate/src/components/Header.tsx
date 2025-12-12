@@ -75,10 +75,10 @@ export const Header = () => {
               },
             }}
           >
-            Cinematik
+            Cinemate
           </Typography>
 
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          {/* <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               component={NavLink}
               to="/films"
@@ -99,7 +99,7 @@ export const Header = () => {
             >
               Сериалы
             </Button>
-          </Box>
+          </Box> */}
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

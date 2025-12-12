@@ -10,6 +10,9 @@ import {
   Stack,
   Divider,
   InputAdornment,
+  Snackbar,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
 import {
   ArrowBack,
@@ -20,6 +23,8 @@ import {
   Cake,
 } from '@mui/icons-material';
 import { useState } from 'react';
+import { useRegisterUserMutation } from '../features/auth/regitration/registrationApi';
+
 export const RegistrationPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -28,37 +33,46 @@ export const RegistrationPage = () => {
   const [lastName, setLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [phone, setPhone] = useState('');
-  const [nickName, setNickName] = useState('asda');
+  const [nickName, setNickName] = useState('');
   const navigateBack = () => navigate(-1);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
+    'success',
+  );
 
+  const [registerUser, { data, isLoading, isError, error }] =
+    useRegisterUserMutation();
+  console.log('data', data);
+  console.log('isLoading', isLoading);
+  console.log('isError', isError);
+  console.log('Error', error);
   const handleSubmit = async (e: React.FormEvent) => {
-    // Обработка регистрации
-    console.log('Форма отправлена', {
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-      birthDate: birthDate,
-      phone: phone,
-    });
-
-    const response = fetch('https://be-cinemate.onrender.com/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        birthDate: birthDate,
-        phoneNumber: phone,
-        nickName: nickName,
-      }),
-    });
-    
     e.preventDefault();
+    try {
+      const result = await registerUser({
+        email,
+        password,
+        firstName,
+        lastName,
+        birthDate,
+        phoneNumber: phone,
+        nickName,
+      }).unwrap();
+      if (!isError) {
+        setSnackbarMessage('Регистрация успешна!');
+        setSnackbarSeverity('success');
+        setSnackbarOpen(true);
+        setTimeout(() => navigate('/'), 2000);
+      }
+    } catch (err) {
+      const message =
+        (err as { data: { message: string } })?.data?.message ||
+        'Ошибка регистрации. Попробуйте снова.';
+      setSnackbarMessage(message);
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -218,6 +232,7 @@ export const RegistrationPage = () => {
             <Divider sx={{ my: 2 }} />
 
             {/* Кнопка отправки */}
+
             <Button
               fullWidth
               type="submit"
@@ -225,11 +240,33 @@ export const RegistrationPage = () => {
               size="large"
               sx={{ py: 1.5, fontWeight: 'bold' }}
             >
-              ЗАРЕГИСТРИРОВАТЬСЯ
+              {isLoading ? (
+                <CircularProgress
+                  size={24}
+                  color="inherit"
+                />
+              ) : (
+                'ЗАРЕГИСТРИРОВАТЬСЯ'
+              )}
             </Button>
           </Stack>
         </Box>
       </Paper>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert
+          severity={snackbarSeverity}
+          onClose={() => setSnackbarOpen(false)}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

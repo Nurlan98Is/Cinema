@@ -1,8 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
 import { signIn } from '../features/auth/authSlice';
 import {
   Box,
@@ -14,6 +12,8 @@ import {
   Link as MuiLink,
   Divider,
   Alert,
+  CircularProgress,
+  Snackbar,
 } from '@mui/material';
 import {
   Lock as LockIcon,
@@ -22,42 +22,44 @@ import {
 } from '@mui/icons-material';
 import { Footer } from '../components/Footer';
 import { setUser } from '../features/user/userSlice';
+import { useLoginUserMutation } from '../features/auth/login/loginApi';
 
 export const SingIn = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'error' as 'error' | 'success',
+  });
+
+  const [loginUser, { data, isLoading, isError, error }] =
+    useLoginUserMutation();
+  console.log('data', data);
+  console.log('isError', isError);
+  console.log('error', error);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
 
     try {
-      const response = await fetch(
-        'https://be-cinemate.onrender.com/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({ email: email, password: password }),
-        },
-      );
-      const data = await response.json();
-      dispatch(setUser(data));
+      const result = await loginUser({
+        email,
+        password,
+      }).unwrap();
       dispatch(signIn(true));
-      console.log(data);
-      navigate('/');
+      dispatch(setUser(result));
+      setSnackbar({
+        open: true,
+        message: 'Успешный вход',
+        severity: 'success',
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
     } catch (error) {
       console.error(error);
-      setError('Неверный email или пароль. Пожалуйста, попробуйте снова.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -90,7 +92,16 @@ export const SingIn = () => {
               severity="error"
               sx={{ mb: 3 }}
             >
-              {error}
+              {'data' in error && error.data
+                ? // Если есть data (FetchBaseQueryError с data)
+                  typeof error.data === 'string'
+                  ? error.data
+                  : JSON.stringify(error.data)
+                : 'error' in error
+                ? error.error // FetchBaseQueryError с полем error
+                : 'message' in error
+                ? error.message // SerializedError
+                : 'Произошла неизвестная ошибка'}
             </Alert>
           )}
 
@@ -152,11 +163,18 @@ export const SingIn = () => {
               type="submit"
               variant="contained"
               size="large"
-              disabled={loading}
+              disabled={isLoading}
               sx={{ mt: 3, py: 1.5 }}
-              endIcon={<ArrowForwardIcon />}
+              endIcon={isLoading ? '' : <ArrowForwardIcon />}
             >
-              {loading ? 'Вход...' : 'Войти'}
+              {isLoading ? (
+                <CircularProgress
+                  size={24}
+                  color="inherit"
+                />
+              ) : (
+                'Войти'
+              )}
             </Button>
           </Box>
 
@@ -176,6 +194,21 @@ export const SingIn = () => {
             </MuiLink>
           </Typography>
         </Paper>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={3000}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <Alert
+            severity={snackbar.severity}
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </Container>
 
       <Footer />
