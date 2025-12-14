@@ -1,7 +1,3 @@
-import * as z from 'zod';
-
-const SeriesDataZod = z.object({});
-
 export interface SeriesData {
   title: {
     original: string;

@@ -39,7 +39,7 @@ function App() {
           element={<SubscribePage />}
         />
         <Route
-          path="/profile/:id"
+          path="/profile/user/:id"
           element={<ProfilePage />}
         />
         <Route

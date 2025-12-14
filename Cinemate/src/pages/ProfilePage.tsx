@@ -52,19 +52,23 @@ const ProfileTab = styled(Tab)({
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
+  const [fUser, setFUser] = useState<UserProfileType>(null);
+  console.log('fuser', fUser);
   const dispatch = useDispatch();
   console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
   const { id } = useParams();
   console.log('id:', id);
   useEffect(() => {
-    fetch(`https://be-cinemate.onrender.com/users/me`, {
+    const response = fetch(`https://be-cinemate.onrender.com/users/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-    });
+    })
+      .then((data) => data.json())
+      .then((user) => setFUser(user));
   }, []);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -77,6 +81,21 @@ export const ProfilePage = () => {
     navigate('/');
   }
 
+  const sendToFriendRequest = async (id: string) => {
+    const response = await fetch(
+      'https://be-cinemate.onrender.com/users/friends/sendRequest',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ friendId: id }),
+      },
+    );
+    const info = response.json();
+    return info;
+  };
   return (
     <Container
       maxWidth="lg"
@@ -93,15 +112,15 @@ export const ProfilePage = () => {
               display="flex"
               justifyContent="center"
             >
-              {user?.ProfilePhotoUrl ? (
+              {fUser?.ProfilePhotoUrl ? (
                 <ProfileAvatar
-                  alt={user.nickName}
-                  src={user?.ProfilePhotoUrl}
+                  alt={fUser?.nickName || ''}
+                  src={fUser?.ProfilePhotoUrl || ''}
                 />
               ) : (
                 <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                  {user.firstName}
-                  {user.lastName}
+                  {fUser?.firstName || ''}
+                  {fUser?.lastName || ''}
                 </ProfileAvatar>
               )}
             </Grid>
@@ -111,7 +130,7 @@ export const ProfilePage = () => {
                 component="h1"
                 gutterBottom
               >
-                {user.nickName || 'Пользователь'}
+                {fUser?.nickName || 'Пользователь'}
               </Typography>
               <Divider sx={{ my: 2 }} />
               <Grid
@@ -126,7 +145,7 @@ export const ProfilePage = () => {
                     Имя
                   </Typography>
                   <Typography variant="h6">
-                    {user.firstName || 'Не указано'}
+                    {fUser?.firstName || 'Не указано'}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -137,7 +156,7 @@ export const ProfilePage = () => {
                     Фамилия
                   </Typography>
                   <Typography variant="h6">
-                    {user.lastName || 'Не указано'}
+                    {fUser?.lastName || 'Не указано'}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -148,7 +167,7 @@ export const ProfilePage = () => {
                     Возраст
                   </Typography>
                   <Typography variant="h6">
-                    {user?.age || 'Не указан'}
+                    {fUser?.age || 'Не указан'}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -158,11 +177,16 @@ export const ProfilePage = () => {
                   >
                     Email
                   </Typography>
-                  <Typography variant="h6">{user.email}</Typography>
+                  <Typography variant="h6">
+                    {fUser?.email || 'Не указан'}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
+          <Button onClick={() => sendToFriendRequest(id)}>
+            Добавить в друзья{' '}
+          </Button>
         </CardContent>
       </Card>
 

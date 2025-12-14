@@ -23,6 +23,8 @@ import { deepPurple } from '@mui/material/colors';
 import { RedoTwoTone } from '@mui/icons-material';
 import { signOut } from '../features/auth/authSlice.ts';
 import { useDispatch } from 'react-redux';
+import FriendsCard from '../components/friendsComponents/FriendsCard.tsx';
+import RequestToFriendsInfo from '../components/friendsComponents/RequestsToFriendsInfo.tsx';
 interface UserProfileType {
   NickName: string;
   FirstName: string;
@@ -52,6 +54,9 @@ const ProfileTab = styled(Tab)({
 export const MyProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
+  const [userFriends, setUserFrineds] = useState([]);
+  const [friendsRequestReceived, setFriendsRequestReceived] = useState([]);
+  console.log('user friend List: ', userFriends);
   const dispatch = useDispatch();
   console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
@@ -64,7 +69,12 @@ export const MyProfilePage = () => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-    });
+    })
+      .then((data) => data.json())
+      .then((user) => {
+        setUserFrineds(user.friendsList),
+          setFriendsRequestReceived(user.friendRequestsReceived);
+      });
   }, []);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -178,6 +188,7 @@ export const MyProfilePage = () => {
           <ProfileTab label="Любимые сериалы" />
           <ProfileTab label="Хочу посмотреть" />
           <ProfileTab label="Отзывы" />
+          <ProfileTab label="Друзья" />
         </Tabs>
       </Box>
 
@@ -209,6 +220,15 @@ export const MyProfilePage = () => {
           >
             Раздел с вашими отзывами
           </Typography>
+        )}
+        {activeTab === 4 && (
+          <Box>
+            <RequestToFriendsInfo
+              RequestsToFriendsInfo={friendsRequestReceived}
+            />
+            <Typography>Друзья:</Typography>
+            <FriendsCard friendsList={userFriends} />
+          </Box>
         )}
       </Box>
       <Box>

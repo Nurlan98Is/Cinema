@@ -20,15 +20,13 @@ interface RegisterResponse {
 export const registrationApi = createApi({
   reducerPath: 'registrationApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://be-cinemate.onrender.com' }),
-  tagTypes: ['Registration'],
-  endpoints: (build) => ({
-    registerUser: build.mutation<RegisterRequest, RegisterResponse>({
+  endpoints: (builder) => ({
+    registerUser: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (body) => ({
         url: '/auth/register',
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Registration'],
     }),
   }),
 });
