@@ -25,6 +25,7 @@ import { signOut } from '../features/auth/authSlice.ts';
 import { useDispatch } from 'react-redux';
 import FriendsCard from '../components/friendsComponents/FriendsCard.tsx';
 import RequestToFriendsInfo from '../components/friendsComponents/RequestsToFriendsInfo.tsx';
+import FriendsView from '../components/friendsComponents/FriendsView.tsx';
 interface UserProfileType {
   NickName: string;
   FirstName: string;
@@ -55,8 +56,16 @@ export const MyProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
   const [userFriends, setUserFrineds] = useState([]);
-  const [friendsRequestReceived, setFriendsRequestReceived] = useState([]);
-  console.log('user friend List: ', userFriends);
+  const [friendRequestReceived, setFriendRequestReceived] = useState([]);
+  const [friendRequestSent, setFriendRequestSent] = useState([]);
+  console.log(
+    'user friend List: ',
+    userFriends,
+    'requests:',
+    friendRequestReceived,
+    'sent req:',
+    friendRequestSent,
+  );
   const dispatch = useDispatch();
   console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
@@ -73,7 +82,8 @@ export const MyProfilePage = () => {
       .then((data) => data.json())
       .then((user) => {
         setUserFrineds(user.friendsList),
-          setFriendsRequestReceived(user.friendRequestsReceived);
+          setFriendRequestReceived(user.friendRequestsReceived);
+        setFriendRequestSent(user.friendRequestsSent);
       });
   }, []);
 
@@ -92,85 +102,99 @@ export const MyProfilePage = () => {
       maxWidth="lg"
       sx={{ py: 4 }}
     >
-      <Card sx={{ mb: 4 }}>
+      <Card
+        sx={{
+          mb: 4,
+          borderRadius: 3,
+          border: '1px solid #dbdbdb',
+          boxShadow: 'none',
+        }}
+      >
         <CardContent>
           <Grid
             container
             spacing={4}
             alignItems="center"
+            flexWrap={{ xs: 'wrap', md: 'nowrap' }}
           >
+            {/* AVATAR */}
             <Grid
               display="flex"
               justifyContent="center"
+              minWidth={{ xs: '100%', md: 220 }}
             >
-              {user?.ProfilePhotoUrl ? (
-                <ProfileAvatar
-                  alt={user.nickName}
-                  src={user?.ProfilePhotoUrl}
-                />
-              ) : (
-                <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                  {user.firstName}
-                  {user.lastName}
-                </ProfileAvatar>
-              )}
+              <ProfileAvatar
+                alt={user.nickName}
+                src={user.ProfilePhotoUrl || ''}
+                sx={{
+                  bgcolor: !user.ProfilePhotoUrl ? deepPurple[500] : undefined,
+                }}
+              >
+                {!user.ProfilePhotoUrl &&
+                  `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`}
+              </ProfileAvatar>
             </Grid>
-            <Grid>
+
+            {/* INFO */}
+            <Grid flex={1}>
               <Typography
-                variant="h4"
-                component="h1"
+                fontSize={28}
+                fontWeight={500}
                 gutterBottom
               >
                 {user.nickName || 'Пользователь'}
               </Typography>
-              <Divider sx={{ my: 2 }} />
-              <Grid
-                container
-                spacing={2}
+
+              <Box
+                display="flex"
+                flexWrap="wrap"
+                gap={3}
+                mt={2}
               >
-                <Grid>
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Имя
                   </Typography>
-                  <Typography variant="h6">
-                    {user.firstName || 'Не указано'}
+                  <Typography fontWeight={600}>
+                    {user.firstName || '—'}
                   </Typography>
-                </Grid>
-                <Grid>
+                </Box>
+
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Фамилия
                   </Typography>
-                  <Typography variant="h6">
-                    {user.lastName || 'Не указано'}
+                  <Typography fontWeight={600}>
+                    {user.lastName || '—'}
                   </Typography>
-                </Grid>
-                <Grid>
+                </Box>
+
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Возраст
                   </Typography>
-                  <Typography variant="h6">
-                    {user?.age || 'Не указан'}
-                  </Typography>
-                </Grid>
-                <Grid>
+                  <Typography fontWeight={600}>{user.age || '—'}</Typography>
+                </Box>
+
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Email
                   </Typography>
-                  <Typography variant="h6">{user.email}</Typography>
-                </Grid>
-              </Grid>
+                  <Typography fontWeight={600}>{user.email}</Typography>
+                </Box>
+              </Box>
             </Grid>
           </Grid>
         </CardContent>
@@ -223,11 +247,18 @@ export const MyProfilePage = () => {
         )}
         {activeTab === 4 && (
           <Box>
-            <RequestToFriendsInfo
+            <Box>
+              <FriendsView
+                friendsList={userFriends}
+                friendRequestsReceived={friendRequestReceived}
+                friendRequestsSent={friendRequestSent}
+              />
+            </Box>
+            {/* <RequestToFriendsInfo
               RequestsToFriendsInfo={friendsRequestReceived}
             />
             <Typography>Друзья:</Typography>
-            <FriendsCard friendsList={userFriends} />
+            <FriendsCard friendsList={userFriends} /> */}
           </Box>
         )}
       </Box>

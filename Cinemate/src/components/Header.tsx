@@ -78,29 +78,6 @@ export const Header = () => {
           >
             Cinemate
           </Typography>
-
-          {/* <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button
-              component={NavLink}
-              to="/films"
-              sx={{
-                textTransform: 'none',
-                fontWeight: 'medium',
-              }}
-            >
-              Фильмы
-            </Button>
-            <Button
-              component={NavLink}
-              to="/serials"
-              sx={{
-                textTransform: 'none',
-                fontWeight: 'medium',
-              }}
-            >
-              Сериалы
-            </Button>
-          </Box> */}
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

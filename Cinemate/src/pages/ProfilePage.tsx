@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { auth, db } from '../firebaseConfig';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -18,17 +17,17 @@ import {
   Tabs,
   Typography,
   styled,
+  Skeleton,
 } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-import { RedoTwoTone } from '@mui/icons-material';
 import { signOut } from '../features/auth/authSlice.ts';
 import { useDispatch } from 'react-redux';
 interface UserProfileType {
-  NickName: string;
-  FirstName: string;
-  LastName: string;
-  Age: number;
-  Email: string;
+  nickName: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  email: string;
   ProfilePhotoUrl?: string;
 }
 
@@ -52,7 +51,7 @@ const ProfileTab = styled(Tab)({
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
-  const [fUser, setFUser] = useState<UserProfileType>(null);
+  const [fUser, setFUser] = useState<UserProfileType | null>(null);
   console.log('fuser', fUser);
   const dispatch = useDispatch();
   console.log('userProfile', user);
@@ -101,92 +100,116 @@ export const ProfilePage = () => {
       maxWidth="lg"
       sx={{ py: 4 }}
     >
-      <Card sx={{ mb: 4 }}>
+      <Card
+        sx={{
+          mb: 4,
+          borderRadius: 3,
+          border: '1px solid #dbdbdb',
+          boxShadow: 'none',
+        }}
+      >
         <CardContent>
           <Grid
             container
             spacing={4}
             alignItems="center"
+            flexWrap={{ xs: 'wrap', md: 'nowrap' }}
           >
+            {/* Avatar */}
             <Grid
               display="flex"
               justifyContent="center"
+              minWidth={{ xs: '100%', md: 220 }}
             >
               {fUser?.ProfilePhotoUrl ? (
                 <ProfileAvatar
-                  alt={fUser?.nickName || ''}
-                  src={fUser?.ProfilePhotoUrl || ''}
+                  alt={fUser.nickName}
+                  src={fUser.ProfilePhotoUrl}
                 />
               ) : (
                 <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                  {fUser?.firstName || ''}
-                  {fUser?.lastName || ''}
+                  {fUser?.firstName?.[0]}
+                  {fUser?.lastName?.[0]}
                 </ProfileAvatar>
               )}
             </Grid>
-            <Grid>
+
+            {/* Info */}
+            <Grid flex={1}>
               <Typography
-                variant="h4"
-                component="h1"
+                fontSize={28}
+                fontWeight={500}
                 gutterBottom
               >
                 {fUser?.nickName || 'Пользователь'}
               </Typography>
-              <Divider sx={{ my: 2 }} />
-              <Grid
-                container
-                spacing={2}
+              <Box
+                display="flex"
+                flexWrap="wrap"
+                gap={3}
+                mt={2}
               >
-                <Grid>
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Имя
                   </Typography>
-                  <Typography variant="h6">
-                    {fUser?.firstName || 'Не указано'}
+                  <Typography fontWeight={600}>
+                    {fUser?.firstName || '—'}
                   </Typography>
-                </Grid>
-                <Grid>
+                </Box>
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Фамилия
                   </Typography>
-                  <Typography variant="h6">
-                    {fUser?.lastName || 'Не указано'}
+                  <Typography fontWeight={600}>
+                    {fUser?.lastName || '—'}
                   </Typography>
-                </Grid>
-                <Grid>
+                </Box>
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Возраст
                   </Typography>
-                  <Typography variant="h6">
-                    {fUser?.age || 'Не указан'}
-                  </Typography>
-                </Grid>
-                <Grid>
+                  <Typography fontWeight={600}>{fUser?.age || '—'}</Typography>
+                </Box>
+                <Box>
                   <Typography
-                    variant="subtitle1"
+                    fontSize={13}
                     color="text.secondary"
                   >
                     Email
                   </Typography>
-                  <Typography variant="h6">
-                    {fUser?.email || 'Не указан'}
+                  <Typography fontWeight={600}>
+                    {fUser?.email || '—'}
                   </Typography>
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
+
+              <Button
+                variant="contained"
+                sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
+                onClick={() => sendToFriendRequest(id)}
+              >
+                Добавить в друзья
+              </Button>
+              {/* <Button
+                variant="outlined"
+                color="success"
+                sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
+                onClick={() => sendToFriendRequest(id)}
+              >
+                В списке вашех друзей
+              </Button> */}
             </Grid>
           </Grid>
-          <Button onClick={() => sendToFriendRequest(id)}>
-            Добавить в друзья{' '}
-          </Button>
         </CardContent>
       </Card>
 
@@ -235,9 +258,53 @@ export const ProfilePage = () => {
           </Typography>
         )}
       </Box>
-      <Box>
-        <Button onClick={() => dispatch(signOut())}>выйти</Button>
-      </Box>
     </Container>
   );
 };
+
+const ProfileSkeleton = () => (
+  <Card sx={{ mb: 4 }}>
+    <CardContent>
+      <Grid
+        container
+        spacing={4}
+        alignItems="center"
+      >
+        <Grid
+          display="flex"
+          justifyContent="center"
+        >
+          <Skeleton
+            variant="circular"
+            width={180}
+            height={180}
+          />
+        </Grid>
+
+        <Grid flex={1}>
+          <Skeleton
+            width="40%"
+            height={40}
+          />
+          <Skeleton
+            width="80%"
+            height={24}
+            sx={{ mt: 2 }}
+          />
+          <Skeleton
+            width="60%"
+            height={24}
+          />
+          <Skeleton
+            width="70%"
+            height={24}
+          />
+          <Skeleton
+            width="90%"
+            height={24}
+          />
+        </Grid>
+      </Grid>
+    </CardContent>
+  </Card>
+);
