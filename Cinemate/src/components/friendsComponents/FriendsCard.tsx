@@ -12,7 +12,7 @@ import {
 import EmailIcon from '@mui/icons-material/Email';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Link } from 'react-router-dom';
-
+import { useAddToBeFriendMutation } from '../../features/user/usersApi';
 interface Friend {
   _id: string;
   avatar: string;
@@ -34,13 +34,16 @@ export default function FriendsCard({
   isSentReq,
   loading,
 }: FriendsCardProps) {
+  const [addToBeFriends, { isLoading, isError, isSuccess, data }] =
+    useAddToBeFriendMutation();
+  console.log('isLoad tbf', isLoading);
+  console.log('isError tbf', isError);
+  console.log('isSuccess tbf', isSuccess);
   const addToFriends = async (id: string) => {
-    await fetch('https://be-cinemate.onrender.com/users/friends/addUser', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ friendId: id }),
-    });
+    const result = addToBeFriends({
+      id,
+    }).unwrap();
+    console.log('res to be frined', result);
   };
 
   /* ================= SKELETON ================= */

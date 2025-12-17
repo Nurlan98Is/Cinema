@@ -11,7 +11,6 @@ import {
   Card,
   CardContent,
   Container,
-  Divider,
   Grid,
   Tab,
   Tabs,
@@ -20,8 +19,11 @@ import {
   Skeleton,
 } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-import { signOut } from '../features/auth/authSlice.ts';
 import { useDispatch } from 'react-redux';
+import {
+  useGetUserByIdQuery,
+  useSentToBefriendsReqMutation,
+} from '../features/user/usersApi.ts';
 interface UserProfileType {
   nickName: string;
   firstName: string;
@@ -49,158 +51,147 @@ const ProfileTab = styled(Tab)({
 });
 
 export const ProfilePage = () => {
+  const { id } = useParams();
+  const {
+    data: profile,
+    isLoading,
+    error,
+    isFetching,
+  } = useGetUserByIdQuery({ id });
+
+  const [
+    sentToBeFriendsReq,
+    { isError, isLoading: isLoadingSentToBefriendsReqMutation, isSuccess },
+  ] = useSentToBefriendsReqMutation();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
-  const [fUser, setFUser] = useState<UserProfileType | null>(null);
-  console.log('fuser', fUser);
-  const dispatch = useDispatch();
   console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
-  const { id } = useParams();
   console.log('id:', id);
-  useEffect(() => {
-    const response = fetch(`https://be-cinemate.onrender.com/users/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    })
-      .then((data) => data.json())
-      .then((user) => setFUser(user));
-  }, []);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
-  const logOut = async () => {
-    const response = await fetch('');
-  };
+
   if (!user) {
     navigate('/');
   }
 
   const sendToFriendRequest = async (id: string) => {
-    const response = await fetch(
-      'https://be-cinemate.onrender.com/users/friends/sendRequest',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ friendId: id }),
-      },
-    );
-    const info = response.json();
-    return info;
+    const result = sentToBeFriendsReq({ id }).unwrap();
+    console.log('result from addToBeFriends', result);
   };
   return (
     <Container
       maxWidth="lg"
       sx={{ py: 4 }}
     >
-      <Card
-        sx={{
-          mb: 4,
-          borderRadius: 3,
-          border: '1px solid #dbdbdb',
-          boxShadow: 'none',
-        }}
-      >
-        <CardContent>
-          <Grid
-            container
-            spacing={4}
-            alignItems="center"
-            flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-          >
-            {/* Avatar */}
+      {isLoading ? (
+        <ProfileSkeleton />
+      ) : (
+        <Card
+          sx={{
+            mb: 4,
+            borderRadius: 3,
+            border: '1px solid #dbdbdb',
+            boxShadow: 'none',
+          }}
+        >
+          <CardContent>
             <Grid
-              display="flex"
-              justifyContent="center"
-              minWidth={{ xs: '100%', md: 220 }}
+              container
+              spacing={4}
+              alignItems="center"
+              flexWrap={{ xs: 'wrap', md: 'nowrap' }}
             >
-              {fUser?.ProfilePhotoUrl ? (
-                <ProfileAvatar
-                  alt={fUser.nickName}
-                  src={fUser.ProfilePhotoUrl}
-                />
-              ) : (
-                <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                  {fUser?.firstName?.[0]}
-                  {fUser?.lastName?.[0]}
-                </ProfileAvatar>
-              )}
-            </Grid>
-
-            {/* Info */}
-            <Grid flex={1}>
-              <Typography
-                fontSize={28}
-                fontWeight={500}
-                gutterBottom
-              >
-                {fUser?.nickName || 'Пользователь'}
-              </Typography>
-              <Box
+              {/* Avatar */}
+              <Grid
                 display="flex"
-                flexWrap="wrap"
-                gap={3}
-                mt={2}
+                justifyContent="center"
+                minWidth={{ xs: '100%', md: 220 }}
               >
-                <Box>
-                  <Typography
-                    fontSize={13}
-                    color="text.secondary"
-                  >
-                    Имя
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {fUser?.firstName || '—'}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    fontSize={13}
-                    color="text.secondary"
-                  >
-                    Фамилия
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {fUser?.lastName || '—'}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    fontSize={13}
-                    color="text.secondary"
-                  >
-                    Возраст
-                  </Typography>
-                  <Typography fontWeight={600}>{fUser?.age || '—'}</Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    fontSize={13}
-                    color="text.secondary"
-                  >
-                    Email
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {fUser?.email || '—'}
-                  </Typography>
-                </Box>
-              </Box>
+                {profile?.ProfilePhotoUrl ? (
+                  <ProfileAvatar
+                    alt={profile.nickName}
+                    src={profile.ProfilePhotoUrl}
+                  />
+                ) : (
+                  <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
+                    {profile?.firstName?.[0]}
+                    {profile?.lastName?.[0]}
+                  </ProfileAvatar>
+                )}
+              </Grid>
 
-              <Button
-                variant="contained"
-                sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
-                onClick={() => sendToFriendRequest(id)}
-              >
-                Добавить в друзья
-              </Button>
-              {/* <Button
+              {/* Info */}
+              <Grid flex={1}>
+                <Typography
+                  fontSize={28}
+                  fontWeight={500}
+                  gutterBottom
+                >
+                  {profile?.nickName || 'Пользователь'}
+                </Typography>
+                <Box
+                  display="flex"
+                  flexWrap="wrap"
+                  gap={3}
+                  mt={2}
+                >
+                  <Box>
+                    <Typography
+                      fontSize={13}
+                      color="text.secondary"
+                    >
+                      Имя
+                    </Typography>
+                    <Typography fontWeight={600}>
+                      {profile?.firstName || '—'}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      fontSize={13}
+                      color="text.secondary"
+                    >
+                      Фамилия
+                    </Typography>
+                    <Typography fontWeight={600}>
+                      {profile?.lastName || '—'}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      fontSize={13}
+                      color="text.secondary"
+                    >
+                      Возраст
+                    </Typography>
+                    <Typography fontWeight={600}>
+                      {profile?.age || '—'}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      fontSize={13}
+                      color="text.secondary"
+                    >
+                      Email
+                    </Typography>
+                    <Typography fontWeight={600}>
+                      {profile?.email || '—'}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Button
+                  variant="contained"
+                  sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
+                  onClick={() => sendToFriendRequest(id)}
+                >
+                  Добавить в друзья
+                </Button>
+                {/* <Button
                 variant="outlined"
                 color="success"
                 sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
@@ -208,10 +199,11 @@ export const ProfilePage = () => {
               >
                 В списке вашех друзей
               </Button> */}
+              </Grid>
             </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       <Box sx={{ width: '100%', mb: 4 }}>
         <Tabs

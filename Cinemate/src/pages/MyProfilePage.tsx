@@ -12,7 +12,6 @@ import {
   Card,
   CardContent,
   Container,
-  Divider,
   Grid,
   Tab,
   Tabs,
@@ -20,12 +19,12 @@ import {
   styled,
 } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-import { RedoTwoTone } from '@mui/icons-material';
 import { signOut } from '../features/auth/authSlice.ts';
 import { useDispatch } from 'react-redux';
 import FriendsCard from '../components/friendsComponents/FriendsCard.tsx';
 import RequestToFriendsInfo from '../components/friendsComponents/RequestsToFriendsInfo.tsx';
 import FriendsView from '../components/friendsComponents/FriendsView.tsx';
+import { useGetMyProfileQuery } from '../features/user/usersApi.ts';
 interface UserProfileType {
   NickName: string;
   FirstName: string;
@@ -70,22 +69,18 @@ export const MyProfilePage = () => {
   console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
   const { id } = useParams();
+
+  const { data: myProfile, isLoading, error } = useGetMyProfileQuery();
+  console.log('s', myProfile);
   console.log('id:', id);
+  console.log('isLoading', isLoading);
   useEffect(() => {
-    fetch(`https://be-cinemate.onrender.com/users/me`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    })
-      .then((data) => data.json())
-      .then((user) => {
-        setUserFrineds(user.friendsList),
-          setFriendRequestReceived(user.friendRequestsReceived);
-        setFriendRequestSent(user.friendRequestsSent);
-      });
-  }, []);
+    if (myProfile) {
+      setUserFrineds(myProfile.friendsList);
+      setFriendRequestReceived(myProfile.friendRequestsReceived);
+      setFriendRequestSent(myProfile.friendRequestsSent);
+    }
+  }, [myProfile]);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -252,13 +247,9 @@ export const MyProfilePage = () => {
                 friendsList={userFriends}
                 friendRequestsReceived={friendRequestReceived}
                 friendRequestsSent={friendRequestSent}
+                loading={isLoading}
               />
             </Box>
-            {/* <RequestToFriendsInfo
-              RequestsToFriendsInfo={friendsRequestReceived}
-            />
-            <Typography>Друзья:</Typography>
-            <FriendsCard friendsList={userFriends} /> */}
           </Box>
         )}
       </Box>
