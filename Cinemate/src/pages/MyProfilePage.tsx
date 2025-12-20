@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { auth, db } from '../firebaseConfig';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -21,8 +20,7 @@ import {
 import { deepPurple } from '@mui/material/colors';
 import { signOut } from '../features/auth/authSlice.ts';
 import { useDispatch } from 'react-redux';
-import FriendsCard from '../components/friendsComponents/FriendsCard.tsx';
-import RequestToFriendsInfo from '../components/friendsComponents/RequestsToFriendsInfo.tsx';
+
 import FriendsView from '../components/friendsComponents/FriendsView.tsx';
 import { useGetMyProfileQuery } from '../features/user/usersApi.ts';
 interface UserProfileType {
@@ -57,23 +55,27 @@ export const MyProfilePage = () => {
   const [userFriends, setUserFrineds] = useState([]);
   const [friendRequestReceived, setFriendRequestReceived] = useState([]);
   const [friendRequestSent, setFriendRequestSent] = useState([]);
-  console.log(
-    'user friend List: ',
-    userFriends,
-    'requests:',
-    friendRequestReceived,
-    'sent req:',
-    friendRequestSent,
-  );
+
   const dispatch = useDispatch();
-  console.log('userProfile', user);
+
   const [activeTab, setActiveTab] = useState(0);
-  const { id } = useParams();
 
   const { data: myProfile, isLoading, error } = useGetMyProfileQuery();
-  console.log('s', myProfile);
-  console.log('id:', id);
-  console.log('isLoading', isLoading);
+
+  const [
+    removeRequestToBeFrined,
+    {
+      isLoading: removeRequestToBeFrinedIsLoading,
+      isSuccess: removeRequestToBeFrinedIsSuccess,
+      data: removeResponse,
+    },
+  ] = useRemoveRequestToBeFrinedMutation({ id });
+  const removeToBeFrinedFn = async (event, id: string) => {
+    event.stopPropagiton();
+    const result = removeRequestToBeFrined({ id }).unwrap();
+    console.log('result from removeTobeFrined', result);
+  };
+
   useEffect(() => {
     if (myProfile) {
       setUserFrineds(myProfile.friendsList);

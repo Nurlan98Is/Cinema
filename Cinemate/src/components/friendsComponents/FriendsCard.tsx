@@ -9,10 +9,14 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 import EmailIcon from '@mui/icons-material/Email';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Link } from 'react-router-dom';
-import { useAddToBeFriendMutation } from '../../features/user/usersApi';
+import {
+  useAddToBeFriendMutation,
+  useRemoveRequestToBeFrinedMutation,
+} from '../../features/user/usersApi';
 interface Friend {
   _id: string;
   avatar: string;
@@ -87,6 +91,11 @@ export default function FriendsCard({
       </Stack>
     );
   }
+  const removeToBeFrinedFn = async (event, id: string) => {
+    event.stopPropagiton();
+    const result = removeRequestToBeFrined({ id }).unwrap();
+    console.log('result from removeTobeFrined', result);
+  };
 
   /* ================= CONTENT ================= */
   return (
@@ -184,6 +193,14 @@ export default function FriendsCard({
                   >
                     <EmailIcon fontSize="small" />
                   </IconButton>
+                )}
+                {isSentReq && (
+                  <Button
+                    style={{ backgroundColor: 'white', color: 'red' }}
+                    onClick={() => removeToBeFrinedFn(id)}
+                  >
+                    <CancelIcon />
+                  </Button>
                 )}
               </Stack>
             </Stack>

@@ -61,14 +61,19 @@ export const ProfilePage = () => {
 
   const [
     sentToBeFriendsReq,
-    { isError, isLoading: isLoadingSentToBefriendsReqMutation, isSuccess },
+    {
+      isError,
+      isLoading: isLoadingSentToBefriendsReqMutation,
+      isSuccess,
+      data,
+    },
   ] = useSentToBefriendsReqMutation();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
   console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
   console.log('id:', id);
-
+  console.log('data in user', profile);
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
@@ -86,7 +91,7 @@ export const ProfilePage = () => {
       maxWidth="lg"
       sx={{ py: 4 }}
     >
-      {isLoading ? (
+      {isLoadingSentToBefriendsReqMutation ? (
         <ProfileSkeleton />
       ) : (
         <Card
@@ -110,15 +115,15 @@ export const ProfilePage = () => {
                 justifyContent="center"
                 minWidth={{ xs: '100%', md: 220 }}
               >
-                {profile?.ProfilePhotoUrl ? (
+                {profile?.user?.ProfilePhotoUrl ? (
                   <ProfileAvatar
-                    alt={profile.nickName}
-                    src={profile.ProfilePhotoUrl}
+                    alt={profile.user.nickName}
+                    src={profile.user.ProfilePhotoUrl}
                   />
                 ) : (
                   <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                    {profile?.firstName?.[0]}
-                    {profile?.lastName?.[0]}
+                    {profile?.user.firstName?.[0]}
+                    {profile?.user.lastName?.[0]}
                   </ProfileAvatar>
                 )}
               </Grid>
@@ -130,7 +135,7 @@ export const ProfilePage = () => {
                   fontWeight={500}
                   gutterBottom
                 >
-                  {profile?.nickName || 'Пользователь'}
+                  {profile?.user.nickName || 'Пользователь'}
                 </Typography>
                 <Box
                   display="flex"
@@ -146,7 +151,7 @@ export const ProfilePage = () => {
                       Имя
                     </Typography>
                     <Typography fontWeight={600}>
-                      {profile?.firstName || '—'}
+                      {profile?.user.firstName || '—'}
                     </Typography>
                   </Box>
                   <Box>
@@ -157,7 +162,7 @@ export const ProfilePage = () => {
                       Фамилия
                     </Typography>
                     <Typography fontWeight={600}>
-                      {profile?.lastName || '—'}
+                      {profile?.user.lastName || '—'}
                     </Typography>
                   </Box>
                   <Box>
@@ -168,7 +173,7 @@ export const ProfilePage = () => {
                       Возраст
                     </Typography>
                     <Typography fontWeight={600}>
-                      {profile?.age || '—'}
+                      {profile?.user.age || '—'}
                     </Typography>
                   </Box>
                   <Box>
@@ -179,18 +184,22 @@ export const ProfilePage = () => {
                       Email
                     </Typography>
                     <Typography fontWeight={600}>
-                      {profile?.email || '—'}
+                      {profile?.user.email || '—'}
                     </Typography>
                   </Box>
                 </Box>
+                {profile?.relation?.requestSent ? (
+                  <Button disabled>Заявка отправлена</Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
+                    onClick={() => sendToFriendRequest(id)}
+                  >
+                    Добавить в друзья
+                  </Button>
+                )}
 
-                <Button
-                  variant="contained"
-                  sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
-                  onClick={() => sendToFriendRequest(id)}
-                >
-                  Добавить в друзья
-                </Button>
                 {/* <Button
                 variant="outlined"
                 color="success"

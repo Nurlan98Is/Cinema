@@ -24,6 +24,14 @@ export const usersApi = createApi({
         credentials: 'include',
       }),
     }),
+    removeRequestToBeFrined: builder.mutation({
+      query: (body) => ({
+        url: '/friends/removeRequest',
+        method: 'PATCH',
+        body: { friendId: body.id },
+        credentials: 'include',
+      }),
+    }),
     addToBeFriend: builder.mutation({
       query: (body) => ({
         url: '/users/friends/addUser',
@@ -41,4 +49,5 @@ export const {
   useGetUserByIdQuery,
   useAddToBeFriendMutation,
   useSentToBefriendsReqMutation,
+  useRemoveRequestToBeFrinedMutation,
 } = usersApi;
