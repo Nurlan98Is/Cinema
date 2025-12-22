@@ -1,4 +1,5 @@
 export interface SeriesData {
+  _id: string;
   title: {
     original: string;
     russian: string;

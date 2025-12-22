@@ -3,8 +3,14 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import WriteReviewDialog from './WriteReviewDialog';
+import { SeriesData } from '../../types/seriesDataType';
 
-export default function ReviewsContainer({ seriesData }) {
+interface ReviewsContainerInterface {
+  seriesData: SeriesData;
+}
+export default function ReviewsContainer({
+  seriesData,
+}: ReviewsContainerInterface) {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   return (
     <Box
