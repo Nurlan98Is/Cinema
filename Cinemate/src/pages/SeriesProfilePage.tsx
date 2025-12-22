@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Box, Typography, Button, Stack, LinearProgress } from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 import SeasonsSeriesComponent from '../components/SeasonsSeriesComponent';
 import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
