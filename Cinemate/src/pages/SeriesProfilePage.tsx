@@ -5,7 +5,7 @@ import SeasonsSeriesComponent from '../components/SeasonsSeriesComponent';
 import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
 import SeriesInfoContainer from '../components/SeriesInfoContainer';
-import ReviewsContainer from '../components/reviewsComponents/ReviewsContainer';
+//import ReviewsContainer from '../components/reviewsComponents/ReviewsContainer';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 export function SeriesProfilePage() {
@@ -168,7 +168,7 @@ export function SeriesProfilePage() {
             },
           }}
         >
-          <ReviewsContainer seriesData={seriesData} />
+          {/* <ReviewsContainer seriesData={seriesData} /> */}
         </Box>
       </Box>
     </Box>
