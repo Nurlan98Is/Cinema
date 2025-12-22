@@ -194,7 +194,7 @@ export const ProfilePage = () => {
                   <Button
                     variant="contained"
                     sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
-                    onClick={() => sendToFriendRequest(id)}
+                    onClick={(e) => {e.preventDefault(), sendToFriendRequest(id)}}
                   >
                     Добавить в друзья
                   </Button>

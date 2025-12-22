@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Box, Typography, Button, Stack, LinearProgress } from '@mui/material';
 import SeasonsSeriesComponent from '../components/SeasonsSeriesComponent';
-import SeasonSeriesComponent from '../components/SeasonsSeriesComponent';
 import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
 import SeriesInfoContainer from '../components/SeriesInfoContainer';
@@ -92,25 +91,25 @@ export function SeriesProfilePage() {
             </Button>
 
             <Button
-              variant="outlined"
+              variant="contained"
               size="large"
-              color="white"
+              color="primary"
             >
               <FavoriteBorderIcon />
             </Button>
 
             <Button
-              variant="outlined"
+              variant="contained"
               size="large"
-              color="white"
+              color="primary"
             >
               <TurnedInNotIcon />
             </Button>
 
             <Button
-              variant="outlined"
+              variant="contained"
               size="large"
-              color="white"
+              color="primary"
             >
               +
             </Button>
@@ -120,7 +119,7 @@ export function SeriesProfilePage() {
 
       <Box
         sx={{ marginX: { xl: '150px' } }}
-        border={'1px solid'}
+        //border={'1px solid'}
       >
         <Stack
           sx={{

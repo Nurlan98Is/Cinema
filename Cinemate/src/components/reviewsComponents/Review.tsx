@@ -16,7 +16,7 @@ export default function Review() {
         borderRadius: '8px',
         color: 'white',
       }}
-      border={'1px solid'}
+      marginTop={'10px'}
     >
       <Stack
         sx={{
