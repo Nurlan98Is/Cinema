@@ -6,7 +6,9 @@ import SeasonSeriesComponent from '../components/SeasonsSeriesComponent';
 import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
 import SeriesInfoContainer from '../components/SeriesInfoContainer';
-import ReviewsContainer from '../components/reviewsComponents/reviewsContainer';
+import ReviewsContainer from '../components/reviewsComponents/ReviewsContainer';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 export function SeriesProfilePage() {
   const { id } = useParams();
   const [seriesData, setSeriesData] = useState<SeriesData | null>(null);
@@ -94,7 +96,7 @@ export function SeriesProfilePage() {
               size="large"
               color="white"
             >
-              +
+              <FavoriteBorderIcon />
             </Button>
 
             <Button
@@ -102,7 +104,7 @@ export function SeriesProfilePage() {
               size="large"
               color="white"
             >
-              +
+              <TurnedInNotIcon />
             </Button>
 
             <Button
@@ -159,10 +161,15 @@ export function SeriesProfilePage() {
           <SeriesInfoContainer seriesData={seriesData} />
         </Stack>
         <Box
-          paddingY={'30px'}
-          width={'60%'}
+          sx={{
+            paddingY: '30px',
+            width: {
+              xs: '100%',
+              xl: '60%',
+            },
+          }}
         >
-          <ReviewsContainer />
+          <ReviewsContainer seriesData={seriesData} />
         </Box>
       </Box>
     </Box>

@@ -106,7 +106,6 @@ export default function FriendsCard({
   }
   const removeToBeFrinedFn = async (id: string) => {
     event.preventDefault();
-    console.log('id in RTBFFN', id);
     const result = removeRequestToBeFrined({ id }).unwrap();
     console.log('result from removeTobeFrined', result);
   };
