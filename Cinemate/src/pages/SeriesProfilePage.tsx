@@ -6,6 +6,7 @@ import SeasonSeriesComponent from '../components/SeasonsSeriesComponent';
 import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
 import SeriesInfoContainer from '../components/SeriesInfoContainer';
+import ReviewsContainer from '../components/reviewsComponents/reviewsContainer';
 export function SeriesProfilePage() {
   const { id } = useParams();
   const [seriesData, setSeriesData] = useState<SeriesData | null>(null);
@@ -114,44 +115,56 @@ export function SeriesProfilePage() {
           </Stack>
         </Box>
       </Box>
-      <Stack
-        sx={{
-          flexDirection: {
-            xs: 'column',
-            sm: 'row',
-          },
-          justifyContent: 'space-around',
-        }}
+
+      <Box
+        sx={{ marginX: { xl: '150px' } }}
+        border={'1px solid'}
       >
-        <Box
+        <Stack
           sx={{
-            width: {
-              xs: '100%',
-              sm: '60%',
+            flexDirection: {
+              xs: 'column',
+              sm: 'row',
             },
+            justifyContent: 'space-between',
           }}
-          height={'auto'}
-          paddingX={'30px'}
-          backgroundColor={'#1A1A1A'}
-          borderRadius={'8px'}
-          display={'flex'}
-          flexDirection={'column'}
-          marginTop={'20px'}
-          paddingY={'20px'}
-          gap={'20px'}
         >
-          <Typography color="#FFFFFF">Сезоны и эпизоды</Typography>
-          {seriesData?.seasons.map((season) => (
-            <SeasonsSeriesComponent
-              seasonNumber={season.seasonNumber}
-              EpisodeSeriesCount={season.numberOfEpisodes}
-              episodeList={season.episodes}
-              key={season._id}
-            />
-          ))}
+          <Box
+            sx={{
+              width: {
+                xs: '100%',
+                sm: '60%',
+              },
+            }}
+            height={'auto'}
+            paddingX={'30px'}
+            backgroundColor={'#1A1A1A'}
+            borderRadius={'8px'}
+            display={'flex'}
+            flexDirection={'column'}
+            marginTop={'20px'}
+            paddingY={'20px'}
+            gap={'20px'}
+          >
+            <Typography color="#FFFFFF">Сезоны и эпизоды</Typography>
+            {seriesData?.seasons.map((season) => (
+              <SeasonsSeriesComponent
+                seasonNumber={season.seasonNumber}
+                EpisodeSeriesCount={season.numberOfEpisodes}
+                episodeList={season.episodes}
+                key={season._id}
+              />
+            ))}
+          </Box>
+          <SeriesInfoContainer seriesData={seriesData} />
+        </Stack>
+        <Box
+          paddingY={'30px'}
+          width={'60%'}
+        >
+          <ReviewsContainer />
         </Box>
-        <SeriesInfoContainer seriesData={seriesData} />
-      </Stack>
+      </Box>
     </Box>
   );
 }

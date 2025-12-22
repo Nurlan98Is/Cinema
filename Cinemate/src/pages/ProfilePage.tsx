@@ -19,7 +19,6 @@ import {
   Skeleton,
 } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-import { useDispatch } from 'react-redux';
 import {
   useGetUserByIdQuery,
   useSentToBefriendsReqMutation,
@@ -68,6 +67,7 @@ export const ProfilePage = () => {
       data,
     },
   ] = useSentToBefriendsReqMutation();
+
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
   console.log('userProfile', user);

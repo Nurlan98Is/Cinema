@@ -17,6 +17,7 @@ import {
   useAddToBeFriendMutation,
   useRemoveRequestToBeFrinedMutation,
 } from '../../features/user/usersApi';
+import { ReactEventHandler, ReactHTML } from 'react';
 interface Friend {
   _id: string;
   avatar: string;
@@ -49,7 +50,19 @@ export default function FriendsCard({
     }).unwrap();
     console.log('res to be frined', result);
   };
-
+  const [
+    removeRequestToBeFrined,
+    {
+      isLoading: isLoadingRemoveRequest,
+      isError: isErrorRemoveRequest,
+      isSuccess: isSuccessRemoveRequest,
+      data: isDataRemoveRequest,
+    },
+  ] = useRemoveRequestToBeFrinedMutation();
+  console.log('loading remove', isLoadingRemoveRequest);
+  console.log('Error remove', isErrorRemoveRequest);
+  console.log(' success remove', isSuccessRemoveRequest);
+  console.log('data in remove', isDataRemoveRequest);
   /* ================= SKELETON ================= */
   if (loading) {
     return (
@@ -91,8 +104,9 @@ export default function FriendsCard({
       </Stack>
     );
   }
-  const removeToBeFrinedFn = async (event, id: string) => {
-    event.stopPropagiton();
+  const removeToBeFrinedFn = async (id: string) => {
+    event.preventDefault();
+    console.log('id in RTBFFN', id);
     const result = removeRequestToBeFrined({ id }).unwrap();
     console.log('result from removeTobeFrined', result);
   };
@@ -197,7 +211,9 @@ export default function FriendsCard({
                 {isSentReq && (
                   <Button
                     style={{ backgroundColor: 'white', color: 'red' }}
-                    onClick={() => removeToBeFrinedFn(id)}
+                    onClick={(e) => {
+                      e.preventDefault(), removeToBeFrinedFn(friend._id);
+                    }}
                   >
                     <CancelIcon />
                   </Button>

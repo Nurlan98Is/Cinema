@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux';
 
 import FriendsView from '../components/friendsComponents/FriendsView.tsx';
 import { useGetMyProfileQuery } from '../features/user/usersApi.ts';
+
 interface UserProfileType {
   NickName: string;
   FirstName: string;
@@ -61,20 +62,6 @@ export const MyProfilePage = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const { data: myProfile, isLoading, error } = useGetMyProfileQuery();
-
-  const [
-    removeRequestToBeFrined,
-    {
-      isLoading: removeRequestToBeFrinedIsLoading,
-      isSuccess: removeRequestToBeFrinedIsSuccess,
-      data: removeResponse,
-    },
-  ] = useRemoveRequestToBeFrinedMutation({ id });
-  const removeToBeFrinedFn = async (event, id: string) => {
-    event.stopPropagiton();
-    const result = removeRequestToBeFrined({ id }).unwrap();
-    console.log('result from removeTobeFrined', result);
-  };
 
   useEffect(() => {
     if (myProfile) {

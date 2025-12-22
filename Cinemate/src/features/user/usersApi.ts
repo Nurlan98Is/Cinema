@@ -25,10 +25,10 @@ export const usersApi = createApi({
       }),
     }),
     removeRequestToBeFrined: builder.mutation({
-      query: (body) => ({
-        url: '/friends/removeRequest',
+      query: ({ id }) => ({
+        url: '/users/friends/removeRequest',
         method: 'PATCH',
-        body: { friendId: body.id },
+        body: { reqFriendId: id },
         credentials: 'include',
       }),
     }),
