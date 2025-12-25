@@ -33,7 +33,7 @@ export default function WriteReviewDialog({
       id,
       text,
     };
-    console.log('создан объект ревью', data);
+    console.log('создан объект ревью:', data);
   };
   return (
     <Dialog

@@ -12,6 +12,7 @@ export default function ReviewsContainer({
   seriesData,
 }: ReviewsContainerInterface) {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
+  console.log(isOpenDialog);
   return (
     <Box
       border={'1px solid'}
