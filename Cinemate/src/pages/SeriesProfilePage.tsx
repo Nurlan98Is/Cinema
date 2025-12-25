@@ -5,7 +5,7 @@ import SeasonsSeriesComponent from '../components/SeasonsSeriesComponent';
 import SkeletonSeriesProfile from '../Skeletons/SkeletonSeriesProfile';
 import { SeriesData } from '../types/seriesDataType';
 import SeriesInfoContainer from '../components/SeriesInfoContainer';
-import ReviewsContainer from '../components/reviewsComponents/ReviewsContainer';
+import ReviewsContainer from '../components/reviewsComponents/ReviewContainer';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import { useAddSeriesToFavoriteMutation } from '../features/user/usersApi';
