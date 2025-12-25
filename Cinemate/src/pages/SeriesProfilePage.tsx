@@ -136,16 +136,16 @@ export function SeriesProfilePage() {
                 xs: '100%',
                 sm: '60%',
               },
+              height: 'auto',
+              px: '30px',
+              bgcolor: '#1A1A1A',
+              borderRadius: '8px',
+              display: 'flex',
+              flexDirection: 'column',
+              mt: '20px',
+              py: '20px',
+              gap: '20px',
             }}
-            height={'auto'}
-            paddingX={'30px'}
-            backgroundColor={'#1A1A1A'}
-            borderRadius={'8px'}
-            display={'flex'}
-            flexDirection={'column'}
-            marginTop={'20px'}
-            paddingY={'20px'}
-            gap={'20px'}
           >
             <Typography color="#FFFFFF">Сезоны и эпизоды</Typography>
             {seriesData?.seasons.map((season) => (

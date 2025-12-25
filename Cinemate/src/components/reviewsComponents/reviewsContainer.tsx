@@ -1,6 +1,6 @@
 import Review from './Review';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import WriteReviewDialog from './WriteReviewDialog';
 import { SeriesData } from '../../types/seriesDataType';
@@ -52,37 +52,21 @@ export default function ReviewsContainer({
         </Button>
       </Stack>
 
-      <Grid
-        container
-        spacing={3} // одинаковое расстояние между карточками
+      <Box
         sx={{
-          height: '100%',
-          width: '100%',
-          margin: 0,
-          '& > .MuiGrid-item': {
-            paddingTop: '0 !important', // убираем верхний отступ
-          },
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 3,
+          mt: 2,
         }}
       >
-        <Grid
-          item
-          xs={12}
-          md={6}
-        >
-          {' '}
-          {/* Первая карточка занимает половину */}
+        <Box sx={{ flex: 1 }}>
           <Review />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-        >
-          {' '}
-          {/* Вторая карточка занимает вторую половину */}
+        </Box>
+        <Box sx={{ flex: 1 }}>
           <Review />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
       <WriteReviewDialog
         isOpenDialog={isOpenDialog}
         setIsOpenDialog={setIsOpenDialog}

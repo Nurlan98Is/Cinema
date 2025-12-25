@@ -23,15 +23,6 @@ import { useDispatch } from 'react-redux';
 import FriendsView from '../components/friendsComponents/FriendsView.tsx';
 import { useGetMyProfileQuery } from '../features/user/usersApi.ts';
 
-interface UserProfileType {
-  NickName: string;
-  FirstName: string;
-  LastName: string;
-  Age: number;
-  Email: string;
-  ProfilePhotoUrl?: string;
-}
-
 const ProfileAvatar = styled(Avatar)(({ theme }) => ({
   width: 200,
   height: 200,
@@ -60,7 +51,7 @@ export const MyProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const { data: myProfile, isLoading, error } = useGetMyProfileQuery();
+  const { data: myProfile, isLoading } = useGetMyProfileQuery({});
 
   useEffect(() => {
     if (myProfile) {
@@ -73,9 +64,7 @@ export const MyProfilePage = () => {
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
-  const logOut = async () => {
-    const response = await fetch('');
-  };
+
   if (!user) {
     navigate('/');
   }

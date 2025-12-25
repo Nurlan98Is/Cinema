@@ -19,12 +19,14 @@ export default function SeasonSeriesComponent({
 
   return (
     <Box
-      width="100%"
-      border="1px solid"
-      borderRadius="10px"
-      backgroundColor="#0F0F0F"
-      height={isOpen ? 'auto' : '80px'} // ✅ исправлено
-      overflow="hidden" // чтобы содержимое не вылезало, когда закрыто
+      sx={{
+        width: '100%',
+        border: '1px solid',
+        borderRadius: '10px',
+        backgroundColor: '#0F0F0F',
+        height: isOpen ? 'auto' : '80px',
+        overflow: 'hidden',
+      }}
     >
       {/* Заголовок сезона */}
       <Stack

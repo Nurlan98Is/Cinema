@@ -29,7 +29,6 @@ export default function ShowCardComponent({ show }: { show: any }) {
   return (
     <Grid
       container
-      item
       key={show._id}
     >
       <ShowCard

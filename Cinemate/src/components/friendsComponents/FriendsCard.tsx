@@ -17,7 +17,8 @@ import {
   useAddToBeFriendMutation,
   useRemoveRequestToBeFrinedMutation,
 } from '../../features/user/usersApi';
-import { ReactEventHandler, ReactHTML } from 'react';
+import { MouseEvent } from 'react';
+
 interface Friend {
   _id: string;
   avatar: string;
@@ -39,7 +40,7 @@ export default function FriendsCard({
   isSentReq,
   loading,
 }: FriendsCardProps) {
-  const [addToBeFriends, { isLoading, isError, isSuccess, data }] =
+  const [addToBeFriends, { isLoading, isError, isSuccess }] =
     useAddToBeFriendMutation();
   console.log('isLoad tbf', isLoading);
   console.log('isError tbf', isError);
@@ -104,10 +105,19 @@ export default function FriendsCard({
       </Stack>
     );
   }
-  const removeToBeFrinedFn = async (id: string) => {
+  const removeToBeFrinedFn = async (
+    event: MouseEvent<HTMLButtonElement>,
+    id: string,
+  ) => {
     event.preventDefault();
-    const result = removeRequestToBeFrined({ id }).unwrap();
-    console.log('result from removeTobeFrined', result);
+    event.stopPropagation();
+
+    try {
+      const result = await removeRequestToBeFrined({ id }).unwrap();
+      console.log('result from removeTobeFrined', result);
+    } catch (error) {
+      console.error('Error removing friend request:', error);
+    }
   };
 
   /* ================= CONTENT ================= */
@@ -211,7 +221,7 @@ export default function FriendsCard({
                   <Button
                     style={{ backgroundColor: 'white', color: 'red' }}
                     onClick={(e) => {
-                      e.preventDefault(), removeToBeFrinedFn(friend._id);
+                      removeToBeFrinedFn(e, friend._id);
                     }}
                   >
                     <CancelIcon />

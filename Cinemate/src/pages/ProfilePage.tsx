@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -23,14 +23,6 @@ import {
   useGetUserByIdQuery,
   useSentToBefriendsReqMutation,
 } from '../features/user/usersApi.ts';
-interface UserProfileType {
-  nickName: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  email: string;
-  ProfilePhotoUrl?: string;
-}
 
 const ProfileAvatar = styled(Avatar)(({ theme }) => ({
   width: 200,
@@ -50,169 +42,167 @@ const ProfileTab = styled(Tab)({
 });
 
 export const ProfilePage = () => {
-  const { id } = useParams();
-  const {
-    data: profile,
-    isLoading,
-    error,
-    isFetching,
-  } = useGetUserByIdQuery({ id });
+  const { id } = useParams<{ id: string }>(); // Явно указываем тип
+  const { data: profile, isLoading: isLoadingProfile } = useGetUserByIdQuery({
+    id: id || '',
+  });
 
   const [
     sentToBeFriendsReq,
-    {
-      isError,
-      isLoading: isLoadingSentToBefriendsReqMutation,
-      isSuccess,
-      data,
-    },
+    { isLoading: isLoadingSentToBefriendsReqMutation },
   ] = useSentToBefriendsReqMutation();
 
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
-  console.log('userProfile', user);
   const [activeTab, setActiveTab] = useState(0);
-  console.log('id:', id);
-  console.log('data in user', profile);
+
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   if (!user) {
     navigate('/');
+    return null; // Добавляем return после навигации
   }
 
-  const sendToFriendRequest = async (id: string) => {
-    const result = sentToBeFriendsReq({ id }).unwrap();
-    console.log('result from addToBeFriends', result);
+  const sendToFriendRequest = async (userId: string) => {
+    try {
+      const result = await sentToBeFriendsReq({ id: userId }).unwrap();
+      console.log('result from addToBeFriends', result);
+    } catch (error) {
+      console.error('Error sending friend request:', error);
+    }
   };
+
+  if (isLoadingProfile || isLoadingSentToBefriendsReqMutation) {
+    return <ProfileSkeleton />;
+  }
+
   return (
     <Container
       maxWidth="lg"
       sx={{ py: 4 }}
     >
-      {isLoadingSentToBefriendsReqMutation ? (
-        <ProfileSkeleton />
-      ) : (
-        <Card
-          sx={{
-            mb: 4,
-            borderRadius: 3,
-            border: '1px solid #dbdbdb',
-            boxShadow: 'none',
-          }}
-        >
-          <CardContent>
+      <Card
+        sx={{
+          mb: 4,
+          borderRadius: 3,
+          border: '1px solid #dbdbdb',
+          boxShadow: 'none',
+        }}
+      >
+        <CardContent>
+          <Grid
+            container
+            spacing={4}
+            alignItems="center"
+            flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+          >
+            {/* Avatar */}
             <Grid
-              container
-              spacing={4}
-              alignItems="center"
-              flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+              display="flex"
+              justifyContent="center"
+              minWidth={{ xs: '100%', md: 220 }}
             >
-              {/* Avatar */}
-              <Grid
-                display="flex"
-                justifyContent="center"
-                minWidth={{ xs: '100%', md: 220 }}
-              >
-                {profile?.user?.ProfilePhotoUrl ? (
-                  <ProfileAvatar
-                    alt={profile.user.nickName}
-                    src={profile.user.ProfilePhotoUrl}
-                  />
-                ) : (
-                  <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
-                    {profile?.user.firstName?.[0]}
-                    {profile?.user.lastName?.[0]}
-                  </ProfileAvatar>
-                )}
-              </Grid>
-
-              {/* Info */}
-              <Grid flex={1}>
-                <Typography
-                  fontSize={28}
-                  fontWeight={500}
-                  gutterBottom
-                >
-                  {profile?.user.nickName || 'Пользователь'}
-                </Typography>
-                <Box
-                  display="flex"
-                  flexWrap="wrap"
-                  gap={3}
-                  mt={2}
-                >
-                  <Box>
-                    <Typography
-                      fontSize={13}
-                      color="text.secondary"
-                    >
-                      Имя
-                    </Typography>
-                    <Typography fontWeight={600}>
-                      {profile?.user.firstName || '—'}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      fontSize={13}
-                      color="text.secondary"
-                    >
-                      Фамилия
-                    </Typography>
-                    <Typography fontWeight={600}>
-                      {profile?.user.lastName || '—'}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      fontSize={13}
-                      color="text.secondary"
-                    >
-                      Возраст
-                    </Typography>
-                    <Typography fontWeight={600}>
-                      {profile?.user.age || '—'}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      fontSize={13}
-                      color="text.secondary"
-                    >
-                      Email
-                    </Typography>
-                    <Typography fontWeight={600}>
-                      {profile?.user.email || '—'}
-                    </Typography>
-                  </Box>
-                </Box>
-                {profile?.relation?.requestSent ? (
-                  <Button disabled>Заявка отправлена</Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
-                    onClick={(e) => {e.preventDefault(), sendToFriendRequest(id)}}
-                  >
-                    Добавить в друзья
-                  </Button>
-                )}
-
-                {/* <Button
-                variant="outlined"
-                color="success"
-                sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
-                onClick={() => sendToFriendRequest(id)}
-              >
-                В списке вашех друзей
-              </Button> */}
-              </Grid>
+              {profile?.user?.ProfilePhotoUrl ? (
+                <ProfileAvatar
+                  alt={profile.user.nickName}
+                  src={profile.user.ProfilePhotoUrl}
+                />
+              ) : (
+                <ProfileAvatar sx={{ bgcolor: deepPurple[500] }}>
+                  {profile?.user.firstName?.[0]}
+                  {profile?.user.lastName?.[0]}
+                </ProfileAvatar>
+              )}
             </Grid>
-          </CardContent>
-        </Card>
-      )}
+
+            {/* Info */}
+            <Grid flex={1}>
+              <Typography
+                fontSize={28}
+                fontWeight={500}
+                gutterBottom
+              >
+                {profile?.user.nickName || 'Пользователь'}
+              </Typography>
+              <Box
+                display="flex"
+                flexWrap="wrap"
+                gap={3}
+                mt={2}
+              >
+                <Box>
+                  <Typography
+                    fontSize={13}
+                    color="text.secondary"
+                  >
+                    Имя
+                  </Typography>
+                  <Typography fontWeight={600}>
+                    {profile?.user.firstName || '—'}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    fontSize={13}
+                    color="text.secondary"
+                  >
+                    Фамилия
+                  </Typography>
+                  <Typography fontWeight={600}>
+                    {profile?.user.lastName || '—'}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    fontSize={13}
+                    color="text.secondary"
+                  >
+                    Возраст
+                  </Typography>
+                  <Typography fontWeight={600}>
+                    {profile?.user.age || '—'}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    fontSize={13}
+                    color="text.secondary"
+                  >
+                    Email
+                  </Typography>
+                  <Typography fontWeight={600}>
+                    {profile?.user.email || '—'}
+                  </Typography>
+                </Box>
+              </Box>
+              {profile?.relation?.requestSent ? (
+                <Button
+                  disabled
+                  sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
+                >
+                  Заявка отправлена
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{ mt: 3, textTransform: 'none', borderRadius: 2 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (id) {
+                      sendToFriendRequest(id);
+                    }
+                  }}
+                  disabled={!id} // Отключаем кнопку если id нет
+                >
+                  Добавить в друзья
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
 
       <Box sx={{ width: '100%', mb: 4 }}>
         <Tabs
@@ -264,48 +254,88 @@ export const ProfilePage = () => {
 };
 
 const ProfileSkeleton = () => (
-  <Card sx={{ mb: 4 }}>
-    <CardContent>
-      <Grid
-        container
-        spacing={4}
-        alignItems="center"
-      >
+  <Container
+    maxWidth="lg"
+    sx={{ py: 4 }}
+  >
+    <Card sx={{ mb: 4, borderRadius: 3 }}>
+      <CardContent>
         <Grid
-          display="flex"
-          justifyContent="center"
+          container
+          spacing={4}
+          alignItems="center"
         >
-          <Skeleton
-            variant="circular"
-            width={180}
-            height={180}
-          />
+          <Grid
+            display="flex"
+            justifyContent="center"
+            minWidth={{ xs: '100%', md: 220 }}
+          >
+            <Skeleton
+              variant="circular"
+              width={200}
+              height={200}
+            />
+          </Grid>
+          <Grid flex={1}>
+            <Skeleton
+              width="40%"
+              height={40}
+            />
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              gap={3}
+              mt={3}
+            >
+              <Box>
+                <Skeleton
+                  width={60}
+                  height={20}
+                />
+                <Skeleton
+                  width={120}
+                  height={30}
+                />
+              </Box>
+              <Box>
+                <Skeleton
+                  width={80}
+                  height={20}
+                />
+                <Skeleton
+                  width={140}
+                  height={30}
+                />
+              </Box>
+              <Box>
+                <Skeleton
+                  width={70}
+                  height={20}
+                />
+                <Skeleton
+                  width={100}
+                  height={30}
+                />
+              </Box>
+              <Box>
+                <Skeleton
+                  width={50}
+                  height={20}
+                />
+                <Skeleton
+                  width={180}
+                  height={30}
+                />
+              </Box>
+            </Box>
+            <Skeleton
+              width={180}
+              height={40}
+              sx={{ mt: 3 }}
+            />
+          </Grid>
         </Grid>
-
-        <Grid flex={1}>
-          <Skeleton
-            width="40%"
-            height={40}
-          />
-          <Skeleton
-            width="80%"
-            height={24}
-            sx={{ mt: 2 }}
-          />
-          <Skeleton
-            width="60%"
-            height={24}
-          />
-          <Skeleton
-            width="70%"
-            height={24}
-          />
-          <Skeleton
-            width="90%"
-            height={24}
-          />
-        </Grid>
-      </Grid>
-    </CardContent>
-  </Card>
+      </CardContent>
+    </Card>
+  </Container>
 );

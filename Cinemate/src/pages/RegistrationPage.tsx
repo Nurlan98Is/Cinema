@@ -65,6 +65,7 @@ export const RegistrationPage = () => {
         setSnackbarOpen(true);
         setTimeout(() => navigate('/'), 2000);
       }
+      console.log('result in reg', result);
     } catch (err) {
       const message =
         (err as { data: { message: string } })?.data?.message ||

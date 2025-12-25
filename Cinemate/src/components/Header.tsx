@@ -24,7 +24,7 @@ interface UserProfile {
 
 export const Header = () => {
   const user = useSelector((state: RootState) => state.auth.auth);
-  const [notification, setNotification] = useState(0);
+  const [notification] = useState(0);
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState<UserProfile>({});
   const userAuth = auth.currentUser;

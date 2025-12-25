@@ -1,8 +1,8 @@
-import styles from "./ProfileIcon.module.css";
-import { useState, useEffect, useRef } from "react";
-import { singIn } from "../features/auth/authSlice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import styles from './ProfileIcon.module.css';
+import { useState, useEffect, useRef } from 'react';
+import { signIn } from '../features/auth/authSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export const ProfileIcon = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,12 +12,12 @@ export const ProfileIcon = () => {
   const navigate = useNavigate();
   //console.log(props);
   const hanldeSingOut = () => {
-    dispatch(singIn(false));
-    navigate("/");
+    dispatch(signIn(false));
+    navigate('/');
   };
 
   const navigateToProfile = () => {
-    navigate("/user");
+    navigate('/user');
   };
 
   // Открытие/закрытие меню
@@ -33,44 +33,53 @@ export const ProfileIcon = () => {
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
     <div
       style={{
         backgroundImage: `url()`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        width: "50px",
-        height: "50px",
-        borderRadius: "50%",
-        marginRight: "20px",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        width: '50px',
+        height: '50px',
+        borderRadius: '50%',
+        marginRight: '20px',
       }}
       /*className={styles.profile_icon_container}*/
       onClick={toggleMenu}
       ref={avatarRef}
     >
       {isOpen && (
-        <div className={styles.opened_container} ref={menuRef}>
+        <div
+          className={styles.opened_container}
+          ref={menuRef}
+        >
           <div
             style={{
               backgroundImage: `url()`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              marginBottom: "30px",
-              width: "70px",
-              height: "70px",
-              borderRadius: "50%",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              marginBottom: '30px',
+              width: '70px',
+              height: '70px',
+              borderRadius: '50%',
             }}
           ></div>
-          <button className={styles.btn_profile} onClick={navigateToProfile}>
+          <button
+            className={styles.btn_profile}
+            onClick={navigateToProfile}
+          >
             Профиль
           </button>
-          <button className={styles.btn_signout} onClick={hanldeSingOut}>
+          <button
+            className={styles.btn_signout}
+            onClick={hanldeSingOut}
+          >
             Выйти
           </button>
         </div>

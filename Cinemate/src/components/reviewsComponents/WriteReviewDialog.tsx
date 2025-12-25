@@ -28,7 +28,7 @@ export default function WriteReviewDialog({
 }: WriteReviewDialogProps) {
   console.log('Product Id:', productId);
   const [text, setText] = useState('');
-  const createReview = (id, text) => {
+  const createReview = (id: string, text: string) => {
     const data = {
       id,
       text,

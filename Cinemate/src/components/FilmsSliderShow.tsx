@@ -1,10 +1,6 @@
-
-import { ReactNode } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { ReactNode } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 
 type ReusableSliderProps = {
   children: ReactNode[];
@@ -17,7 +13,6 @@ export default function SeriesSwiper({
   children,
   slidesPerView = 4,
   spaceBetween = 0,
-  slideHeight = 'auto',
 }: ReusableSliderProps) {
   return (
     <Swiper
@@ -32,7 +27,7 @@ export default function SeriesSwiper({
         960: { slidesPerView: 2 },
         1280: { slidesPerView: 4 },
       }}
-      style={{height: 750}}
+      style={{ height: 750 }}
     >
       {children.map((child, index) => (
         <SwiperSlide key={index}>{child}</SwiperSlide>

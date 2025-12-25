@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Stack, useMediaQuery } from '@mui/material';
+import { Box, Typography, Stack, useMediaQuery } from '@mui/material';
 import ClockDuration from '../../public/ClockDuration.png';
 import { Episodes } from '../types/seriesDataType';
 
@@ -8,7 +8,6 @@ export default function EpisodeContainerComponent({
 }: Episodes) {
   console.log('episode', index);
   const isMobile = useMediaQuery('(max-width:600px)');
-  const isTablet = useMediaQuery('(min-width:601px) and (max-width:1024px)');
   return (
     <Stack
       key={index}
@@ -21,30 +20,29 @@ export default function EpisodeContainerComponent({
       padding={isMobile ? '10px 0' : '0'}
       spacing={isMobile ? 1 : 0}
     >
-      {/* Номер эпизода */}
       <Typography
         color="gray"
         fontSize={isMobile ? '18px' : '24px'}
         marginLeft={isMobile ? '10px' : 0}
-        flexShrink={0} // номер не будет сжиматься
+        flexShrink={0}
       >
         {index}
       </Typography>
 
-      {/* Картинка серии */}
       <Box
-        height={isMobile ? '100px' : '118px'}
-        width={isMobile ? '140px' : '172px'}
-        border="1px solid"
-        backgroundColor="gray"
-        borderRadius="8px"
-        marginY={isMobile ? 1 : 0}
-        flexShrink={0} // картинка не будет сжиматься
+        sx={{
+          height: isMobile ? '100px' : '118px',
+          width: isMobile ? '140px' : '172px',
+          border: '1px solid',
+          backgroundColor: 'gray',
+          borderRadius: '8px',
+          my: isMobile ? 1 : 0,
+          flexShrink: 0,
+        }}
       ></Box>
 
-      {/* Информация о серии */}
       <Stack
-        width={isMobile ? '90%' : 'calc(100% - 250px)'} // динамическая ширина на ПК
+        width={isMobile ? '90%' : 'calc(100% - 250px)'}
         spacing={0.5}
       >
         <Stack
@@ -55,11 +53,13 @@ export default function EpisodeContainerComponent({
           gap={1}
         >
           <Typography
-            color="#FFFFFF"
-            fontSize={isMobile ? '14px' : '16px'}
-            maxWidth={isMobile ? '100%' : '70%'}
-            overflowWrap="break-word"
-            wordBreak="break-word"
+            sx={{
+              color: '#FFFFFF',
+              fontSize: isMobile ? '14px' : '16px',
+              maxWidth: isMobile ? '100%' : '70%',
+              overflowWrap: 'break-word',
+              wordBreak: 'break-word',
+            }}
           >
             {episode?.title.russian}
           </Typography>
@@ -71,7 +71,7 @@ export default function EpisodeContainerComponent({
             padding="0 8px"
             height="33px"
             border="1px solid gray"
-            backgroundColor="#262626"
+            bgcolor="#262626"
             borderRadius="4px"
             flexShrink={0}
           >
@@ -90,11 +90,13 @@ export default function EpisodeContainerComponent({
         </Stack>
 
         <Typography
-          color="#999999"
-          fontSize={isMobile ? '12px' : '14px'}
-          marginTop={0.5}
-          overflowWrap="break-word"
-          wordBreak="break-word"
+          sx={{
+            color: '#999999',
+            fontSize: isMobile ? '12px' : '14px',
+            marginTop: 0.5,
+            overflowWrap: 'break-word',
+            wordBreak: 'break-word',
+          }}
         >
           {episode?.description}
         </Typography>

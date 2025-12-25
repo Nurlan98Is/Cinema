@@ -1,4 +1,4 @@
-import { Rating, Box, Typography, Stack } from '@mui/material';
+import { Rating, Typography, Stack } from '@mui/material';
 
 export default function RatingContainer({
   imdbRating,
