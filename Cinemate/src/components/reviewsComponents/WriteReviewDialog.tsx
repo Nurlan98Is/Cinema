@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
+import { useCreateReviewMutation } from '../../features/user/usersApi';
+
 interface WriteReviewDialogProps {
   isOpenDialog: boolean;
   nameProduct: {
@@ -20,20 +22,30 @@ interface WriteReviewDialogProps {
   productId: string;
   setIsOpenDialog: (value: boolean) => void;
 }
+
 export default function WriteReviewDialog({
   isOpenDialog,
   setIsOpenDialog,
   nameProduct,
   productId,
 }: WriteReviewDialogProps) {
-  console.log('Product Id:', productId);
   const [text, setText] = useState('');
-  const createReview = (id: string, text: string) => {
-    const data = {
-      id,
-      text,
-    };
-    console.log('создан объект ревью:', data);
+  const [ratingValue, setRatingValue] = useState(0);
+
+  const [createReview] = useCreateReviewMutation();
+
+  const createReviewFn = async (productId: string, text: string) => {
+    try {
+      console.log('rating', ratingValue, typeof ratingValue);
+      const result = await createReview({
+        productId,
+        reviewText: text,
+        reviewRating: ratingValue,
+      });
+      console.log('result in createReviewFn', result);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Dialog
@@ -120,6 +132,10 @@ export default function WriteReviewDialog({
           </Typography>
           <Rating
             size="large"
+            value={ratingValue}
+            onChange={(_event, newValue) =>
+              setRatingValue(Number(newValue) || 0)
+            }
             sx={{
               '& .MuiRating-icon': {
                 fontSize: {
@@ -165,7 +181,7 @@ export default function WriteReviewDialog({
               backgroundColor: '#1565c0',
             },
           }}
-          onClick={() => createReview(productId, text)}
+          onClick={() => createReviewFn(productId, text)}
         >
           Оставить отзыв
         </Button>

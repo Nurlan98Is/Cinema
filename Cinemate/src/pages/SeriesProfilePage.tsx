@@ -8,6 +8,7 @@ import SeriesInfoContainer from '../components/SeriesInfoContainer';
 import ReviewsContainer from '../components/reviewsComponents/ReviewsContainer';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+import { useAddSeriesToFavoriteMutation } from '../features/user/usersApi';
 export function SeriesProfilePage() {
   const { id } = useParams();
   const [seriesData, setSeriesData] = useState<SeriesData | null>(null);
@@ -24,8 +25,15 @@ export function SeriesProfilePage() {
       setLoading(false);
     }
   }
-
-  console.log('data series', seriesData);
+  const [addSeriesToFavorite, { isLoading, isSuccess }] =
+    useAddSeriesToFavoriteMutation();
+  const addToFavoriteSeriesFn = async (id: string) => {
+    const result = await addSeriesToFavorite({ id }).unwrap();
+    console.log('result in ADDTOFAVORITESERIESFN', result);
+  };
+  console.log('isLoading in fres', isLoading);
+  console.log('isSuccess in fres', isSuccess);
+  // console.log('data series', seriesData);
   useEffect(() => {
     fetchDataSeries();
   }, [id]);
@@ -94,6 +102,7 @@ export function SeriesProfilePage() {
               variant="contained"
               size="large"
               color="primary"
+              onClick={() => addToFavoriteSeriesFn(id || '')}
             >
               <FavoriteBorderIcon />
             </Button>

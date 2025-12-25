@@ -16,6 +16,14 @@ export const usersApi = createApi({
         credentials: 'include',
       }),
     }),
+    addSeriesToFavorite: builder.mutation({
+      query: ({ id }) => ({
+        url: '/users/me/favorite-series',
+        method: 'POST',
+        body: { seriesId: id },
+        credentials: 'include',
+      }),
+    }),
     sentToBefriendsReq: builder.mutation({
       query: (body) => ({
         url: '/users/friends/sendRequest',
@@ -41,6 +49,14 @@ export const usersApi = createApi({
         credentials: 'include',
       }),
     }),
+    createReview: builder.mutation({
+      query: ({ productId, reviewRating, reviewText }) => ({
+        url: '/users/createReview',
+        method: 'POST',
+        body: { productId, reviewRating, reviewText },
+        credentials: 'include',
+      }),
+    }),
   }),
 });
 
@@ -50,4 +66,6 @@ export const {
   useAddToBeFriendMutation,
   useSentToBefriendsReqMutation,
   useRemoveRequestToBeFrinedMutation,
+  useCreateReviewMutation,
+  useAddSeriesToFavoriteMutation,
 } = usersApi;
