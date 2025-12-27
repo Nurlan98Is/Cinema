@@ -8,8 +8,10 @@ import {
   TextField,
   Rating,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
 import { useState } from 'react';
 import { useCreateReviewMutation } from '../../features/user/usersApi';
 
@@ -32,17 +34,22 @@ export default function WriteReviewDialog({
   const [text, setText] = useState('');
   const [ratingValue, setRatingValue] = useState(0);
 
-  const [createReview] = useCreateReviewMutation();
+  const [
+    createReview,
+    { isLoading: isLoadingCreateReview, isSuccess: isSuccessCreateReview },
+  ] = useCreateReviewMutation();
 
   const createReviewFn = async (productId: string, text: string) => {
     try {
-      console.log('rating', ratingValue, typeof ratingValue);
       const result = await createReview({
         productId,
         reviewText: text,
         reviewRating: ratingValue,
       });
-      console.log('result in createReviewFn', result);
+      console.log('res in CRF', result);
+      setTimeout(() => {
+        setIsOpenDialog(false);
+      }, 1500);
     } catch (error) {
       console.log(error);
     }
@@ -176,14 +183,23 @@ export default function WriteReviewDialog({
           sx={{
             padding: '12px',
             marginTop: 2,
-            backgroundColor: '#1976d2',
+            backgroundColor: isSuccessCreateReview ? '#2D572C' : '#1976d2',
             '&:hover': {
               backgroundColor: '#1565c0',
             },
           }}
           onClick={() => createReviewFn(productId, text)}
         >
-          Оставить отзыв
+          {isLoadingCreateReview ? (
+            <CircularProgress color="inherit" />
+          ) : isSuccessCreateReview ? (
+            <>
+              <DoneIcon />
+              {''} Отзыв успешно создан
+            </>
+          ) : (
+            'Оставить отзыв'
+          )}
         </Button>
       </DialogContent>
     </Dialog>

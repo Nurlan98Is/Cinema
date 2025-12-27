@@ -1,6 +1,20 @@
 import { Avatar, Box, Typography, Rating, Stack } from '@mui/material';
-
-export default function Review() {
+interface ReviewProps {
+  author: {
+    firstName: string;
+    lastName: string;
+    _id: string;
+  };
+  reviewRating: number;
+  reviewText: string;
+}
+export default function Review({
+  author,
+  reviewRating,
+  reviewText,
+}: ReviewProps) {
+  console.log(reviewRating);
+  const { firstName, lastName } = author;
   return (
     <Box
       sx={{
@@ -30,10 +44,13 @@ export default function Review() {
         }}
       >
         <Avatar />
-        <Typography>Макс Максимов</Typography>
+        <Typography>
+          {firstName} {''}
+          {lastName}
+        </Typography>
         <Rating
           readOnly
-          defaultValue={3}
+          value={reviewRating || 0}
           sx={{
             '& .MuiRating-iconFilled': {
               color: '#f5c518',
@@ -44,11 +61,7 @@ export default function Review() {
           }}
         />
       </Stack>
-      <Typography>
-        This movie was recommended to me by a very dear friend who went for the
-        movie by herself. I went to the cinemas to watch but had a houseful
-        board so couldn’t watch it..
-      </Typography>
+      <Typography>{reviewText}</Typography>
     </Box>
   );
 }

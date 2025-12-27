@@ -1,19 +1,40 @@
 import Review from './Review';
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import WriteReviewDialog from './WriteReviewDialog';
 import { SeriesData } from '../../types/seriesDataType';
 
 interface ReviewsContainerInterface {
   seriesData: SeriesData;
 }
+interface ReviewDataI {
+  authorId: {
+    firstName: string;
+    lastName: string;
+    _id: string;
+  };
+  reviewRating: number;
+  reviewText: string;
+}
 export default function ReviewsContainer({
   seriesData,
 }: ReviewsContainerInterface) {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [reviewData, setReviewData] = useState<ReviewDataI[]>([]);
   console.log(isOpenDialog);
-
+  useEffect(() => {
+    try {
+      fetch(
+        `https://be-cinemate.onrender.com/series/getReview/${seriesData._id}`,
+      )
+        .then((res) => res.json())
+        .then((data) => setReviewData(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  console.log('reviewData', reviewData);
   return (
     <Box
       border={'1px solid'}
@@ -62,11 +83,23 @@ export default function ReviewsContainer({
           mt: 2,
         }}
       >
-        <Box sx={{ flex: 1 }}>
-          <Review />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Review />
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '20px',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}
+        >
+          {reviewData.slice(-4).map((review) => (
+            <Review
+              key={review.authorId._id}
+              author={review.authorId}
+              reviewRating={review.reviewRating}
+              reviewText={review.reviewText}
+            />
+          ))}
         </Box>
       </Box>
       <WriteReviewDialog
