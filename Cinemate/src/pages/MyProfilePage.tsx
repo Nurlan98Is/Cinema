@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 
 import FriendsView from '../components/friendsComponents/FriendsView.tsx';
 import { useGetMyProfileQuery } from '../features/user/usersApi.ts';
+import MessageLgContainer from '../components/messageComponents/MessageLgContainer.tsx';
 
 const ProfileAvatar = styled(Avatar)(({ theme }) => ({
   width: 200,
@@ -46,6 +47,8 @@ export const MyProfilePage = () => {
   const [userFriends, setUserFrineds] = useState([]);
   const [friendRequestReceived, setFriendRequestReceived] = useState([]);
   const [friendRequestSent, setFriendRequestSent] = useState([]);
+
+  const [isOpenMessanger, setIsOpenMessanger] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -219,14 +222,25 @@ export const MyProfilePage = () => {
         )}
         {activeTab === 4 && (
           <Box>
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                justifyContent: 'space-between',
+                gap: 3,
+              }}
+            >
               <FriendsView
                 friendsList={userFriends}
                 friendRequestsReceived={friendRequestReceived}
                 friendRequestsSent={friendRequestSent}
                 loading={isLoading}
               />
+              {isOpenMessanger && <MessageLgContainer />}
             </Box>
+            <Button onClick={() => setIsOpenMessanger(!isOpenMessanger)}>
+              Октрыть сообщения
+            </Button>
           </Box>
         )}
       </Box>

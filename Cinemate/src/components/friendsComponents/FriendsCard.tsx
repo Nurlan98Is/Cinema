@@ -146,7 +146,6 @@ export default function FriendsCard({
               alignItems="center"
               justifyContent="space-between"
             >
-              {/* LEFT */}
               <Stack
                 direction="row"
                 spacing={2}
@@ -212,7 +211,9 @@ export default function FriendsCard({
                 {isFriend && (
                   <IconButton
                     size="small"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
                     <EmailIcon fontSize="small" />
                   </IconButton>

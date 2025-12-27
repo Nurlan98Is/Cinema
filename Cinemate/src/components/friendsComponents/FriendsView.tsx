@@ -28,7 +28,10 @@ export default function FriendsView({
 
   return (
     <Box
-      maxWidth={500}
+      sx={{
+        maxWidth: { xs: '100%', md: '48%' },
+        flex: { md: 1 },
+      }}
       height={500}
       border="1px solid #dbdbdb"
       borderRadius={3}
